@@ -34,7 +34,23 @@ public class BaseEntity {
     @Column(name = "modified_date")
     private Date modifiedDate;
 
+    public Long getId() {
+        return id;
+    }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
 
+    public Date getCreatedDate() {
+        return createdDate;
+    }
 
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
 }
