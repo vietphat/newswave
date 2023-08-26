@@ -1,22 +1,26 @@
-package com.vietphat.newswave.security;
+package com.vietphat.newswave.config;
 
+import com.vietphat.newswave.utils.SecurityUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 import java.io.IOException;
+import java.util.List;
 
 public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private RedirectStrategy redirectStrategy;
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-        String targetUrl = determineTargetUrl(authentication);
+        List<String> authorities = SecurityUtils.getAuthorities();
+        String targetUrl = determineTargetUrl(authorities);
 
         if (response.isCommitted()) {
             System.out.println("Can not redirect");
@@ -25,12 +29,22 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
 
-    public String determineTargetUrl(Authentication authentication) {
+    public String determineTargetUrl(List<String> authorities) {
         // TODO: redirect dựa theo quyền
         // ROLE_ADMIN, ROLE_AUTHOR -> dashboard
         // ROLE_USER -> homepage
-        return "/";
+
+        String url = "";
+
+        if (authorities.contains("ROLE_ADMIN") || authorities.contains("ROLE_JOURNALIST")) {
+            url = "/quan-tri";
+        } else if (authorities.contains("ROLE_USER")) {
+            url = "/trang-chu";
+        }
+
+        return url;
     }
+
 
     @Override
     public RedirectStrategy getRedirectStrategy() {

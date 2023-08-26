@@ -1,8 +1,5 @@
 package com.vietphat.newswave.dto;
 
-import com.vietphat.newswave.entity.CommentEntity;
-import com.vietphat.newswave.entity.PostEntity;
-import com.vietphat.newswave.entity.RoleEntity;
 import com.vietphat.newswave.enums.UserStatus;
 
 import java.util.Date;

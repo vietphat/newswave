@@ -408,3 +408,26 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+-- INSERT DATA FOR AUTH
+-- user
+INSERT INTO user(full_name, phone_number, date_of_birth, email, address, username, password, status, last_login, created_by, created_date, modified_by, modified_date)
+VALUES('Quản trị viên', null, null, 'admin@gmail.com', '', 'admin', '$2a$10$HGTilBjhtyJwi9EV8I9gI.jLJwhDqx1fgiBwrnu/kz8lUFv190VuC', 1, null, 'root', CURDATE(), null, null);
+INSERT INTO user(full_name, phone_number, date_of_birth, email, address, username, password, status, last_login, created_by, created_date, modified_by, modified_date)
+VALUES('Nhà báo', null, null, 'journalist@gmail.com', '', 'journalist', '$2a$10$2cKHkH2qc/FJqcvPWbC5J.XK/yH6UFKSz4tfItnZ4.T3ecKA/hk8W', 1, null, 'root', CURDATE(), null, null);
+INSERT INTO user(full_name, phone_number, date_of_birth, email, address, username, password, status, last_login, created_by, created_date, modified_by, modified_date)
+VALUES('Người dùng', null, null, 'user@gmail.com', '', 'user', '$2a$10$a1mtcg.kB3U0So/C.M5nR.IFop5ZhzQjoITIknPep3pANPyj5/DCe', 1, null, 'root', CURDATE(), null, null);
+
+-- role
+INSERT INTO role(name, code) VALUES('Quản trị viên', 'ADMIN');
+INSERT INTO role(name, code) VALUES('Nhà báo', 'JOURNALIST');
+INSERT INTO role(name, code) VALUES('Người dùng', 'USER');
+
+-- user_role
+INSERT INTO user_role(user_id, role_id) VALUES(1, 1);
+INSERT INTO user_role(user_id, role_id) VALUES(1, 2);
+INSERT INTO user_role(user_id, role_id) VALUES(1, 3);
+INSERT INTO user_role(user_id, role_id) VALUES(2, 1);
+INSERT INTO user_role(user_id, role_id) VALUES(2, 2);
+INSERT INTO user_role(user_id, role_id) VALUES(3, 3);
+

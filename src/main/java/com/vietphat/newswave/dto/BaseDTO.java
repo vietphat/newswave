@@ -2,7 +2,7 @@ package com.vietphat.newswave.dto;
 
 import java.util.Date;
 
-public class BaseDTO {
+public abstract class BaseDTO {
 
     private Long id;
 

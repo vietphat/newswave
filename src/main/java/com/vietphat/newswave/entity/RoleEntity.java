@@ -1,8 +1,8 @@
 package com.vietphat.newswave.entity;
 
+import com.vietphat.newswave.enums.UserRole;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,8 +12,9 @@ public class RoleEntity extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "code", nullable = false, unique = true)
-    private String code;
+    private UserRole code;
 
     @ManyToMany(mappedBy = "roles")
     private List<UserEntity> users;
@@ -21,9 +22,9 @@ public class RoleEntity extends BaseEntity {
     public RoleEntity() {
     }
 
-    public RoleEntity(String name, String code) {
+    public RoleEntity(String name, UserRole role) {
         this.name = name;
-        this.code = code;
+        this.code = role;
     }
 
     public String getName() {
@@ -34,11 +35,19 @@ public class RoleEntity extends BaseEntity {
         this.name = name;
     }
 
-    public String getCode() {
+    public UserRole getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(UserRole code) {
         this.code = code;
+    }
+
+    public List<UserEntity> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UserEntity> users) {
+        this.users = users;
     }
 }

@@ -2,6 +2,7 @@ package com.vietphat.newswave.service.impl;
 
 import com.vietphat.newswave.dto.UserDTO;
 import com.vietphat.newswave.entity.UserEntity;
+import com.vietphat.newswave.enums.UserStatus;
 import com.vietphat.newswave.repository.UserRepository;
 import com.vietphat.newswave.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -23,9 +24,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO findByUsernameAndStatus(String username, Integer status) {
+    public UserDTO findByUsernameAndStatus(String username, UserStatus userStatus) {
 
-        UserEntity user = userRepository.findByUsernameAndStatus(username, status);
+        UserEntity user = userRepository.findByUsernameAndStatus(username, userStatus);
 
         return modelMapper.map(user, UserDTO.class);
     }

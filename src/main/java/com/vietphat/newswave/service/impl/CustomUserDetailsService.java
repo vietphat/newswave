@@ -3,6 +3,7 @@ package com.vietphat.newswave.service.impl;
 import com.vietphat.newswave.dto.MyUser;
 import com.vietphat.newswave.dto.RoleDTO;
 import com.vietphat.newswave.dto.UserDTO;
+import com.vietphat.newswave.enums.UserStatus;
 import com.vietphat.newswave.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserDTO userDTO = userService.findByUsernameAndStatus(username, 1);
+        UserDTO userDTO = userService.findByUsernameAndStatus(username, UserStatus.ACTIVE);
 
         if (userDTO == null) {
             throw new UsernameNotFoundException("Username not found");

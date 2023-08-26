@@ -16,4 +16,9 @@ public class HomeController {
         return "views/web/index.html";
     }
 
+    @RequestMapping("/quan-tri")
+    public String dashboard() {
+        return "views/dashboard/index.html";
+    }
+
 }
