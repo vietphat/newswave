@@ -36,7 +36,7 @@ public class UserEntity extends BaseEntity {
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status", nullable = false)
-    private UserStatus status;
+    private UserStatus status = UserStatus.ACTIVE;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
