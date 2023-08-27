@@ -6,6 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    UserEntity findByUsernameAndStatus(String username, UserStatus userStatus);
+    UserEntity findByUsernameAndStatus(String username, UserStatus status);
+
+    UserEntity findByEmailAndStatus(String email, UserStatus status);
+
+    UserEntity findByIdAndStatus(Long id, UserStatus status);
 
 }

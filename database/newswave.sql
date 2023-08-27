@@ -431,3 +431,35 @@ INSERT INTO user_role(user_id, role_id) VALUES(2, 1);
 INSERT INTO user_role(user_id, role_id) VALUES(2, 2);
 INSERT INTO user_role(user_id, role_id) VALUES(3, 3);
 
+-- thêm bảng reset_password_token
+CREATE TABLE `reset_password_token` (
+  `id` bigint(20) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `expiryDate` datetime(6) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `created_by` varchar(255) DEFAULT NULL,
+  `created_date` datetime(6) DEFAULT NULL,
+  `modified_by` varchar(255) DEFAULT NULL,
+  `modified_date` datetime(6) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Indexes for table `reset_password_token`
+--
+ALTER TABLE `reset_password_token`
+    ADD PRIMARY KEY (`id`),
+    ADD UNIQUE KEY `useridunique` (`user_id`);
+
+--
+-- AUTO_INCREMENT for table `reset_password_token`
+--
+ALTER TABLE `reset_password_token`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for table `reset_password_token`
+--
+ALTER TABLE `reset_password_token`
+  ADD CONSTRAINT `reset_password_token_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+

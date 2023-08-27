@@ -1,19 +1,28 @@
 package com.vietphat.newswave.validation;
 
+import com.vietphat.newswave.dto.ResetPasswordDTO;
 import com.vietphat.newswave.dto.UserRegistrationDTO;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, UserRegistrationDTO> {
+public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, Object> {
     @Override
     public void initialize(PasswordMatches constraintAnnotation) {
 
     }
 
     @Override
-    public boolean isValid(UserRegistrationDTO user, ConstraintValidatorContext context) {
+    public boolean isValid(Object o, ConstraintValidatorContext context) {
 
-        boolean isValid = user.getPassword().equals(user.getConfirmPassword());
+        boolean isValid = false;
+
+        if (o instanceof UserRegistrationDTO) {
+            UserRegistrationDTO user = (UserRegistrationDTO) o;
+            isValid = user.getPassword().equals(user.getConfirmPassword());
+        } else if (o instanceof ResetPasswordDTO){
+            ResetPasswordDTO user = (ResetPasswordDTO) o;
+            isValid = user.getPassword().equals(user.getConfirmPassword());
+        }
 
         if (!isValid) {
             context.disableDefaultConstraintViolation();

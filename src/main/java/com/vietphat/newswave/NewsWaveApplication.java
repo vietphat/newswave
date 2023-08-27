@@ -10,4 +10,6 @@ public class NewsWaveApplication {
 		SpringApplication.run(NewsWaveApplication.class, args);
 	}
 
+
+
 }

@@ -168,4 +168,5 @@ public class UserEntity extends BaseEntity {
     public void setComments(List<CommentEntity> comments) {
         this.comments = comments;
     }
+
 }
