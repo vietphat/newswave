@@ -15,6 +15,6 @@ public interface ForgotPasswordService {
 
     ResetPasswordTokenEntity findResetPasswordTokenByToken(String tokenStr);
 
-    boolean validateToken(ResetPasswordTokenEntity token, UserEntity user);
+    boolean validateToken(ResetPasswordTokenEntity token);
 
 }

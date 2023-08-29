@@ -65,16 +65,10 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
     }
 
     @Override
-    public boolean validateToken(ResetPasswordTokenEntity token, UserEntity user) {
+    public boolean validateToken(ResetPasswordTokenEntity token) {
 
-        // kiểm tra token có tồn tại không
+        // 1. kiểm tra token có tồn tại không
         if (token == null) {
-            return false;
-        }
-
-        // kiểm tra token có hợp lệ hay không
-        // 1. có phải token của người dùng gửi yêu cầu ko ?
-        if (!token.getUser().getId().equals(user.getId())) {
             return false;
         }
 

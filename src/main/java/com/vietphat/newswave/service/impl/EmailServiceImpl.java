@@ -92,7 +92,7 @@ public class EmailServiceImpl implements EmailService {
 
         // TODO: set to SystemConstant
         String currentContextPath = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-        String url = currentContextPath + "/xac-thuc/tao-lai-mat-khau?token=" + token.getToken() + "&userId=" + user.getId();
+        String url = currentContextPath + "/xac-thuc/tao-lai-mat-khau/" + token.getToken();
 
         mailMessage.setText(url);
 

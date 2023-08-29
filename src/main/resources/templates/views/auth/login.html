@@ -43,9 +43,12 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                 </div>
+                                <div th:if="${message != null}" th:class="|alert alert-${alert} text-center|">
+                                    <span th:text="${message}" />
+                                </div>
                                 <form class="user" th:action="@{/j_spring_security_check}" method="post">
                                     <div class="form-group">
-                                        <input name="j_username" type="text" class="form-control form-control-user"
+                                        <input name="j_username" type="text" th:value="${username}" class="form-control form-control-user"
                                                placeholder="Tài khoản...">
                                     </div>
 

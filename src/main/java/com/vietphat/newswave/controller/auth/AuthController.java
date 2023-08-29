@@ -18,7 +18,12 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/xac-thuc")
@@ -40,7 +45,13 @@ public class AuthController {
     }
 
     @GetMapping("/dang-nhap")
-    public String loginPage() {
+    public String loginPage(@RequestParam(name = "incorrectCredentials", required = false) String incorrectCredentials,
+                            Model model) {
+
+        if (incorrectCredentials != null) {
+            model.addAttribute("alert", "danger");
+            model.addAttribute("message", "Tài khoản hoặc mật khẩu chưa chính xác");
+        }
 
         return "views/auth/login.html";
     }
@@ -54,7 +65,8 @@ public class AuthController {
     }
 
     @PostMapping("/dang-ky")
-    public String signup(@Valid @ModelAttribute("user") UserRegistrationDTO userRegistrationDTO, BindingResult bindingResult) {
+    public String signup(@Valid @ModelAttribute("user") UserRegistrationDTO userRegistrationDTO,
+                         BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             return "views/auth/signup.html";
@@ -62,10 +74,10 @@ public class AuthController {
 
         UserEntity user = userService.register(userRegistrationDTO);
         if (user != null) {
-
-            // TODO: SET USERNAME
-
-            return "views/auth/login.html";
+            redirectAttributes.addFlashAttribute("alert", "success");
+            redirectAttributes.addFlashAttribute("message", "Đăng ký tài khoản thành công!");
+            redirectAttributes.addFlashAttribute("username", user.getUsername());
+            return "redirect:/xac-thuc/dang-nhap";
         }
 
         return ""; // TODO: ADD SERVER ERROR PAGE
@@ -102,7 +114,7 @@ public class AuthController {
         }
 
         // 2. tạo token -> lưu token vào db và gửi mail
-        ResetPasswordTokenEntity token  = forgotPasswordService.createToken(user);
+        ResetPasswordTokenEntity token = forgotPasswordService.createToken(user);
 
         // lưu token vào database
         token = forgotPasswordService.saveToken(token);
@@ -119,31 +131,32 @@ public class AuthController {
         return "views/auth/forgot-password.html";
     }
 
-    @GetMapping("/tao-lai-mat-khau")
-    public String resetPasswordPage(Model model,
-                                    @RequestParam(value = "token", required = false) String tokenStr,
-                                    @RequestParam(value = "userId", required = false) String userId) {
+    @GetMapping("/tao-lai-mat-khau/{tokenStr}")
+    public String resetPasswordPage(Model model, @PathVariable String tokenStr) {
 
-        model.addAttribute("token", tokenStr);
-        model.addAttribute("userId", userId);
         model.addAttribute("user", new ResetPasswordDTO());
         return "views/auth/reset-password";
     }
 
-    @PostMapping("/tao-lai-mat-khau")
+    @PostMapping(value = "/tao-lai-mat-khau/{tokenStr}")
     public String resetPassword(@Valid @ModelAttribute("user") ResetPasswordDTO resetPasswordDTO,
-                                BindingResult bindingResult,
-                                @RequestParam(value = "token", required = false) String tokenStr,
-                                @RequestParam(value = "userId", required = false) String userId,
-                                Model model) {
+                                BindingResult bindingResult, @PathVariable String tokenStr,
+                                Model model, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             return "views/auth/reset-password";
         }
 
         ResetPasswordTokenEntity resetPasswordToken = forgotPasswordService.findResetPasswordTokenByToken(tokenStr);
-        UserEntity user = userService.findByIdAndStatus(Long.parseLong(userId), UserStatus.ACTIVE);
+        // kiểm tra token có hợp lệ không
+        boolean tokenIsValid = forgotPasswordService.validateToken(resetPasswordToken);
+        if (!tokenIsValid) {
+            model.addAttribute("alert", "danger");
+            model.addAttribute("message", "Token không hợp lệ hoặc đã quá hạn.");
+            return "views/auth/reset-password";
+        }
 
+        UserEntity user = userService.findByIdAndStatus(resetPasswordToken.getUser().getId(), UserStatus.ACTIVE);
         // kiểm tra user có tồn tại hay không
         if (user == null) {
             model.addAttribute("alert", "danger");
@@ -151,19 +164,14 @@ public class AuthController {
             return "views/auth/reset-password";
         }
 
-        // kiểm tra token có hợp lệ không
-        boolean tokenIsValid = forgotPasswordService.validateToken(resetPasswordToken, user);
-        if (!tokenIsValid) {
-            model.addAttribute("alert", "danger");
-            model.addAttribute("message", "Token không hợp lệ hoặc đã quá hạn.");
-            return "views/auth/reset-password";
-        }
-
         // lưu mật khẩu mới
         userService.resetPassword(user, resetPasswordDTO);
 
-        // TODO: set username
-        return "views/auth/login";
+        redirectAttributes.addFlashAttribute("alert", "success");
+        redirectAttributes.addFlashAttribute("message", "Tạo lại mật khẩu thành công");
+        redirectAttributes.addFlashAttribute("username", user.getUsername());
+
+        return "redirect:/xac-thuc/dang-nhap";
     }
 
     @GetMapping("/dang-xuat")
