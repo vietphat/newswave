@@ -6,9 +6,5 @@ import com.vietphat.newswave.entity.UserEntity;
 
 public interface EmailService {
 
-    String sendSimpleMail(EmailDetails emailDetails);
-
-    String sendMailWithAttachment(EmailDetails emailDetails);
-
     boolean sendResetPasswordUrl(ResetPasswordTokenEntity token, UserEntity user);
 }

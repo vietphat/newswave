@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-    xmlns:th="http://www.thymeleaf.org"
+      xmlns:th="http://www.thymeleaf.org"
 >
 
 <head>
@@ -37,34 +37,43 @@
                     <div class="p-5">
                         <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4">Đăng ký tài khoản</h1>
-
                         </div>
                         <form method="post" th:action="@{/xac-thuc/dang-ky}" th:object="${user}" class="user">
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input th:field="*{fullName}" type="text" class="form-control form-control-user" placeholder="Tên đầy đủ">
-                                    <span th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" class="text-danger" />
+                                    <input th:field="*{fullName}" type="text" class="form-control form-control-user"
+                                           placeholder="Tên đầy đủ">
+                                    <span th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"
+                                          class="text-danger font-weight-light"/>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input th:field="*{email}" type="email" class="form-control form-control-user" placeholder="Email">
-                                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger" />
+                                    <input th:field="*{email}" type="email" class="form-control form-control-user"
+                                           placeholder="Email">
+                                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                                          class="text-danger font-weight-light"/>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input th:field="*{username}" type="text" class="form-control form-control-user" placeholder="Tên đăng nhập">
-                                <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger" />
+                                <input th:field="*{username}" type="text" class="form-control form-control-user"
+                                       placeholder="Tên đăng nhập">
+                                <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
+                                      class="text-danger font-weight-light"/>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input th:field="*{password}" type="password" class="form-control form-control-user" placeholder="Mật khẩu">
-                                    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger" />
+                                    <input th:field="*{password}" type="password" class="form-control form-control-user"
+                                           placeholder="Mật khẩu">
+                                    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                                          class="text-danger font-weight-light"/>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input th:field="*{confirmPassword}" type="password" class="form-control form-control-user" placeholder="Xác nhận mật khẩu">
-                                    <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="text-danger" />
+                                    <input th:field="*{confirmPassword}" type="password"
+                                           class="form-control form-control-user" placeholder="Xác nhận mật khẩu">
+                                    <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"
+                                          class="text-danger font-weight-light"/>
                                 </div>
                             </div>
-                            <input type="submit" class="btn btn-primary btn-user btn-block" value="Đăng ký ngay" />
+                            <input type="submit" class="btn btn-primary btn-user btn-block" value="Đăng ký ngay"/>
                             <hr>
                             <a href="#" class="btn btn-google btn-user btn-block">
                                 <i class="fab fa-google fa-fw"></i> Đăng nhập bằng Google

@@ -30,57 +30,6 @@ public class EmailServiceImpl implements EmailService {
         this.javaMailSender = javaMailSender;
     }
 
-
-    @Override
-    public String sendSimpleMail(EmailDetails emailDetails) {
-        try {
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-
-            mailMessage.setFrom(sender);
-            mailMessage.setTo(emailDetails.getRecipient());
-            mailMessage.setSubject(emailDetails.getSubject());
-            mailMessage.setText(emailDetails.getMessageBody());
-
-            javaMailSender.send(mailMessage);
-            return "Gửi mail thành công";
-        } catch (Exception ex) {
-            System.out.println(ex);
-            return "Có lỗi xảy ra khi gửi mail";
-        }
-    }
-
-    @Override
-    public String sendMailWithAttachment(EmailDetails emailDetails) {
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper mimeMessageHelper;
-
-        try {
-
-            // Setting multipart as true for attachments to be sent
-            mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
-            mimeMessageHelper.setFrom(sender);
-            mimeMessageHelper.setTo(emailDetails.getRecipient());
-            mimeMessageHelper.setText(emailDetails.getMessageBody());
-            mimeMessageHelper.setSubject(emailDetails.getSubject());
-
-            // Adding the attachment
-            FileSystemResource file = new FileSystemResource(new File(emailDetails.getAttachment()));
-
-            mimeMessageHelper.addAttachment(file.getFilename(), file);
-
-            // Sending the mail
-            javaMailSender.send(mimeMessage);
-            return "Gửi mail thành công";
-        }
-
-        // Catch block to handle MessagingException
-        catch (MessagingException e) {
-
-            // Display message when exception occurred
-            return "Có lỗi xảy ra khi gửi mail";
-        }
-    }
-
     @Override
     public boolean sendResetPasswordUrl(ResetPasswordTokenEntity token, UserEntity user) {
 

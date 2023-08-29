@@ -36,7 +36,8 @@ public class UserServiceImpl implements UserService {
 
         UserEntity user = userRepository.findByUsernameAndStatus(username, userStatus);
 
-        return modelMapper.map(user, UserDTO.class);
+
+        return (user == null) ? null : modelMapper.map(user, UserDTO.class);
     }
 
     @Override
