@@ -8,6 +8,7 @@ import com.vietphat.newswave.enums.UserStatus;
 import com.vietphat.newswave.repository.UserRepository;
 import com.vietphat.newswave.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.internal.util.Assert;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -81,5 +82,27 @@ public class UserServiceImpl implements UserService {
         UserEntity user = userRepository.findByIdAndStatus(id, status);
 
         return user;
+    }
+
+    @Override
+    public boolean fieldValueExists(Object value, String fieldName) throws UnsupportedOperationException {
+        Assert.notNull(fieldName);
+
+        if (!fieldName.equals("email") && !fieldName.equals("username")) {
+            throw new UnsupportedOperationException("Trường này không được hỗ trợ xác thực là duy nhất");
+        }
+
+        if (value == null) {
+            return false;
+        }
+
+        switch (fieldName) {
+            case "email":
+                return this.userRepository.existsByEmail(value.toString());
+            case "username":
+                return this.userRepository.existsByUsername(value.toString());
+            default:
+                return false;
+        }
     }
 }

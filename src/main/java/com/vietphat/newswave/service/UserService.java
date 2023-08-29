@@ -6,7 +6,7 @@ import com.vietphat.newswave.dto.UserRegistrationDTO;
 import com.vietphat.newswave.entity.UserEntity;
 import com.vietphat.newswave.enums.UserStatus;
 
-public interface UserService {
+public interface UserService extends UniqueFieldService {
 
     UserDTO findByUsernameAndStatus(String username, UserStatus userStatus);
 

@@ -1,4 +1,4 @@
-package com.vietphat.newswave.validation;
+package com.vietphat.newswave.validation.passwordmatches;
 
 import com.vietphat.newswave.dto.ResetPasswordDTO;
 import com.vietphat.newswave.dto.UserRegistrationDTO;

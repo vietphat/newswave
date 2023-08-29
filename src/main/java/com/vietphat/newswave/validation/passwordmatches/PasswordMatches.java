@@ -1,4 +1,4 @@
-package com.vietphat.newswave.validation;
+package com.vietphat.newswave.validation.passwordmatches;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

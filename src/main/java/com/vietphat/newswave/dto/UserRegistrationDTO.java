@@ -1,6 +1,8 @@
 package com.vietphat.newswave.dto;
 
-import com.vietphat.newswave.validation.PasswordMatches;
+import com.vietphat.newswave.service.UserService;
+import com.vietphat.newswave.validation.passwordmatches.PasswordMatches;
+import com.vietphat.newswave.validation.uniquefield.UniqueField;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -12,9 +14,11 @@ public class UserRegistrationDTO {
     private String fullName;
 
     @Email(message = "Invalid email format")
+    @UniqueField(fieldName = "email", service = UserService.class, message = "Email đã được tồn tại")
     private String email;
 
     @Size(min = 4, message = "Tên đăng nhập phải có ít nhất 4 ký tự")
+    @UniqueField(fieldName = "username", service = UserService.class, message = "Tên đăng nhập đã tồn tại")
     private String username;
 
     @Size(min = 4, message = "Mật khẩu phải có ít nhất 4 ký tự")
