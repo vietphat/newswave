@@ -56,7 +56,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth
                             .requestMatchers("/quan-tri/**")
-                                .hasAnyRole(UserRole.ADMIN.toString(), UserRole.JOURNALIST.toString())
+                                .hasAnyRole(UserRole.SUPER_ADMIN.toString())
                             .anyRequest().permitAll();
                 })
                 .formLogin(config -> {

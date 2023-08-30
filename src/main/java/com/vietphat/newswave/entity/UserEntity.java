@@ -51,12 +51,8 @@ public class UserEntity extends BaseEntity {
     )
     private List<CommentEntity> comments;
 
-    @ManyToMany
-    @JoinTable(name = "saved_post",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "post_id")
-    )
-    private List<PostEntity> posts;
+    @OneToMany(mappedBy = "user")
+    private List<SavedPostEntity> savedPosts;
 
     public UserEntity() {
     }
@@ -153,12 +149,12 @@ public class UserEntity extends BaseEntity {
         this.roles = roles;
     }
 
-    public List<PostEntity> getPosts() {
-        return posts;
+    public List<SavedPostEntity> getSavedPosts() {
+        return savedPosts;
     }
 
-    public void setPosts(List<PostEntity> posts) {
-        this.posts = posts;
+    public void setSavedPosts(List<SavedPostEntity> savedPosts) {
+        this.savedPosts = savedPosts;
     }
 
     public List<CommentEntity> getComments() {

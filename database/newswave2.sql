@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2023 at 04:53 PM
+-- Generation Time: Aug 30, 2023 at 10:10 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.0.25
 
@@ -65,9 +65,9 @@ CREATE TABLE `comment_report` (
   `reason` varchar(255) DEFAULT NULL,
   `comment_id` bigint(20) DEFAULT NULL,
   `created_by` varchar(255) DEFAULT NULL,
-  `created_date` datetime(6) DEFAULT NULL,
-  `modified_by` varchar(255) DEFAULT NULL,
-  `modified_date` datetime(6) DEFAULT NULL
+    `created_date` datetime(6) DEFAULT NULL,
+    `modified_by` varchar(255) DEFAULT NULL,
+    `modified_date` datetime(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
@@ -78,15 +78,15 @@ CREATE TABLE `comment_report` (
 
 CREATE TABLE `contact` (
   `id` bigint(20) NOT NULL,
-  `full_name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `full_name` varchar(255) NOT NULL,
   `phone_number` varchar(255) DEFAULT NULL,
   `title` varchar(255) NOT NULL,
   `content` text NOT NULL,
   `created_by` varchar(255) DEFAULT NULL,
-  `created_date` datetime(6) DEFAULT NULL,
-  `modified_date` datetime(6) DEFAULT NULL,
-  `modified_by` varchar(255) DEFAULT NULL
+    `created_date` datetime(6) DEFAULT NULL,
+    `modified_by` varchar(255) DEFAULT NULL,
+    `modified_date` datetime(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
@@ -102,14 +102,14 @@ CREATE TABLE `post` (
   `thumbnail` varchar(255) DEFAULT NULL,
   `short_description` text DEFAULT NULL,
   `content` text DEFAULT NULL,
+  `views` int(11) DEFAULT NULL,
   `published` tinyint(4) DEFAULT NULL,
   `published_date` datetime(6) DEFAULT NULL,
-  `views` int(11) DEFAULT NULL,
   `category_id` bigint(20) DEFAULT NULL,
   `created_by` varchar(255) DEFAULT NULL,
-  `created_date` datetime(6) DEFAULT NULL,
-  `modified_by` varchar(255) DEFAULT NULL,
-  `modified_date` datetime(6) DEFAULT NULL
+    `created_date` datetime(6) DEFAULT NULL,
+    `modified_by` varchar(255) DEFAULT NULL,
+    `modified_date` datetime(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
@@ -126,17 +126,37 @@ CREATE TABLE `post_tag` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `reset_password_token`
+--
+
+CREATE TABLE `reset_password_token` (
+  `id` bigint(20) NOT NULL,
+  `token` varchar(255) DEFAULT NULL,
+  `expiry_date` datetime(6) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+    `created_by` varchar(255) DEFAULT NULL,
+   `created_date` datetime(6) DEFAULT NULL,
+   `modified_by` varchar(255) DEFAULT NULL,
+   `modified_date` datetime(6) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `role`
 --
 
 CREATE TABLE `role` (
   `id` bigint(20) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `code` varchar(255) NOT NULL,
+  `code` enum(
+  'SUPER_ADMIN', 'USER_ADMIN', 'ROLE_ADMIN', 'POST_ADMIN', 'CATEGORY_ADMIN', 'TAG_ADMIN', 'COMMENT_ADMIN'
+  , 'RESET_PASSWORD_TOKEN_ADMIN', 'CONTACT_ADMIN', 'COMMENT_REPORT_ADMIN', 'USER'
+  ) NOT NULL,
   `created_by` varchar(255) DEFAULT NULL,
-  `created_date` datetime(6) DEFAULT NULL,
-  `modified_by` varchar(255) DEFAULT NULL,
-  `modified_date` datetime(6) DEFAULT NULL
+    `created_date` datetime(6) DEFAULT NULL,
+    `modified_by` varchar(255) DEFAULT NULL,
+    `modified_date` datetime(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
@@ -147,7 +167,8 @@ CREATE TABLE `role` (
 
 CREATE TABLE `saved_post` (
   `user_id` bigint(20) NOT NULL,
-  `post_id` bigint(20) NOT NULL
+  `post_id` bigint(20) NOT NULL,
+  `saved_date` datetime(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
@@ -161,9 +182,9 @@ CREATE TABLE `tag` (
   `name` varchar(255) NOT NULL,
   `code` varchar(255) NOT NULL,
   `created_by` varchar(255) DEFAULT NULL,
-  `created_date` datetime(6) DEFAULT NULL,
-  `modified_by` varchar(255) DEFAULT NULL,
-  `modified_date` datetime(6) DEFAULT NULL
+    `created_date` datetime(6) DEFAULT NULL,
+    `modified_by` varchar(255) DEFAULT NULL,
+    `modified_date` datetime(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
@@ -176,13 +197,13 @@ CREATE TABLE `user` (
   `id` bigint(20) NOT NULL,
   `full_name` varchar(255) NOT NULL,
   `phone_number` varchar(255) DEFAULT NULL,
-  `date_of_birth` datetime(6) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
+  `date_of_birth` datetime(6) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
+  `last_login` datetime(6) DEFAULT NULL,
+  `status` tinyint(4) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `status` tinyint(4) NOT NULL,
-  `last_login` datetime(6) DEFAULT NULL,
   `created_by` varchar(255) DEFAULT NULL,
   `created_date` datetime(6) DEFAULT NULL,
   `modified_by` varchar(255) DEFAULT NULL,
@@ -234,7 +255,8 @@ ALTER TABLE `comment`
 -- Indexes for table `comment_report`
 --
 ALTER TABLE `comment_report`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK8ugevhla12t9n0uw4o0rkvnth` (`comment_id`);
 
 --
 -- Indexes for table `contact`
@@ -258,6 +280,13 @@ ALTER TABLE `post_tag`
   ADD KEY `FKc2auetuvsec0k566l0eyvr9cs` (`post_id`);
 
 --
+-- Indexes for table `reset_password_token`
+--
+ALTER TABLE `reset_password_token`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UK_48tx38u7rrhldrpgxswjwyfhg` (`user_id`);
+
+--
 -- Indexes for table `role`
 --
 ALTER TABLE `role`
@@ -268,7 +297,7 @@ ALTER TABLE `role`
 -- Indexes for table `saved_post`
 --
 ALTER TABLE `saved_post`
-  ADD KEY `FKen1lxuu640imywwubiaq784j2` (`post_id`),
+  ADD PRIMARY KEY (`post_id`,`user_id`),
   ADD KEY `FK6rpajkl6dwamx4qfarj35grvr` (`user_id`);
 
 --
@@ -336,6 +365,12 @@ ALTER TABLE `post`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `reset_password_token`
+--
+ALTER TABLE `reset_password_token`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
@@ -365,16 +400,16 @@ ALTER TABLE `comment`
   ADD CONSTRAINT `FKs1slvnkuemjsq2kj4h3vhx7i1` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`);
 
 --
--- Constraints for table `post`
---
-ALTER TABLE `post`
-  ADD CONSTRAINT `FKg6l1ydp1pwkmyj166teiuov1b` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
-
---
 -- Constraints for table `comment_report`
 --
 ALTER TABLE `comment_report`
   ADD CONSTRAINT `FK8ugevhla12t9n0uw4o0rkvnth` FOREIGN KEY (`comment_id`) REFERENCES `comment` (`id`);
+
+--
+-- Constraints for table `post`
+--
+ALTER TABLE `post`
+  ADD CONSTRAINT `FKg6l1ydp1pwkmyj166teiuov1b` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
 
 --
 -- Constraints for table `post_tag`
@@ -382,6 +417,12 @@ ALTER TABLE `comment_report`
 ALTER TABLE `post_tag`
   ADD CONSTRAINT `FKac1wdchd2pnur3fl225obmlg0` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`),
   ADD CONSTRAINT `FKc2auetuvsec0k566l0eyvr9cs` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`);
+
+--
+-- Constraints for table `reset_password_token`
+--
+ALTER TABLE `reset_password_token`
+  ADD CONSTRAINT `FKf2tlmidtga0ohscum2abphe9o` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Constraints for table `saved_post`
@@ -408,64 +449,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
--- thêm bảng reset_password_token
-CREATE TABLE `reset_password_token` (
-  `id` bigint(20) NOT NULL,
-  `token` varchar(255) NOT NULL,
-  `expiryDate` datetime(6) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
-  `created_by` varchar(255) DEFAULT NULL,
-  `created_date` datetime(6) DEFAULT NULL,
-  `modified_by` varchar(255) DEFAULT NULL,
-  `modified_date` datetime(6) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Indexes for table `reset_password_token`
---
-ALTER TABLE `reset_password_token`
-    ADD PRIMARY KEY (`id`),
-    ADD UNIQUE KEY `useridunique` (`user_id`);
-
---
--- AUTO_INCREMENT for table `reset_password_token`
---
-ALTER TABLE `reset_password_token`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
--- Constraints for table `reset_password_token`
---
-ALTER TABLE `reset_password_token`
-  ADD CONSTRAINT `reset_password_token_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
-
--- INSERT DATA FOR AUTH
--- role
-INSERT INTO role(name, code) VALUES('Quản trị viên', 'SUPER_ADMIN');
-INSERT INTO role(name, code) VALUES('Quản trị viên', 'USER_ADMIN');
-INSERT INTO role(name, code) VALUES('Quản trị viên', 'ROLE_ADMIN');
-INSERT INTO role(name, code) VALUES('Quản trị viên', 'POST_ADMIN');
-INSERT INTO role(name, code) VALUES('Quản trị viên', 'CATEGORY_ADMIN');
-INSERT INTO role(name, code) VALUES('Quản trị viên', 'TAG_ADMIN');
-INSERT INTO role(name, code) VALUES('Quản trị viên', 'COMMENT_ADMIN');
-INSERT INTO role(name, code) VALUES('Quản trị viên', 'RESET_PASSWORD_TOKEN_ADMIN');
-INSERT INTO role(name, code) VALUES('Quản trị viên', 'CONTACT_ADMIN');
-INSERT INTO role(name, code) VALUES('Quản trị viên', 'COMMENT_REPORT_ADMIN');
-INSERT INTO role(name, code) VALUES('Người dùng', 'USER');
-
--- user
-INSERT INTO user(full_name, phone_number, date_of_birth, email, address, username, password, status, last_login, created_by, created_date, modified_by, modified_date)
-VALUES('Quản trị viên', null, null, 'superadmin@gmail.com', '', 'admin', '$2a$10$HGTilBjhtyJwi9EV8I9gI.jLJwhDqx1fgiBwrnu/kz8lUFv190VuC', 1, null, 'root', CURDATE(), null, null);
-INSERT INTO user(full_name, phone_number, date_of_birth, email, address, username, password, status, last_login, created_by, created_date, modified_by, modified_date)
-VALUES('Nhà báo', null, null, 'journalist@gmail.com', '', 'journalist', '$2a$10$2cKHkH2qc/FJqcvPWbC5J.XK/yH6UFKSz4tfItnZ4.T3ecKA/hk8W', 1, null, 'root', CURDATE(), null, null);
-INSERT INTO user(full_name, phone_number, date_of_birth, email, address, username, password, status, last_login, created_by, created_date, modified_by, modified_date)
-VALUES('Người dùng', null, null, 'user@gmail.com', '', 'user', '$2a$10$a1mtcg.kB3U0So/C.M5nR.IFop5ZhzQjoITIknPep3pANPyj5/DCe', 1, null, 'root', CURDATE(), null, null);
-
--- user_role
-INSERT INTO user_role(user_id, role_id) VALUES(1, 1);
-INSERT INTO user_role(user_id, role_id) VALUES(1, 2);
-INSERT INTO user_role(user_id, role_id) VALUES(1, 3);
-INSERT INTO user_role(user_id, role_id) VALUES(2, 1);
-INSERT INTO user_role(user_id, role_id) VALUES(2, 2);
-INSERT INTO user_role(user_id, role_id) VALUES(3, 3);

@@ -1,5 +1,6 @@
 package com.vietphat.newswave.entity;
 
+import com.vietphat.newswave.entity.key.SavedPostId;
 import com.vietphat.newswave.enums.PostStatus;
 import jakarta.persistence.*;
 
@@ -49,12 +50,8 @@ public class PostEntity extends BaseEntity {
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<CommentEntity> comments;
 
-    @ManyToMany
-    @JoinTable(name = "saved_post",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private List<PostEntity> users;
+    @OneToMany(mappedBy = "post")
+    private List<SavedPostEntity> savingUsers;
 
     public PostEntity() {
     }
@@ -139,5 +136,29 @@ public class PostEntity extends BaseEntity {
 
     public void setTags(List<TagEntity> tags) {
         this.tags = tags;
+    }
+
+    public Integer getViews() {
+        return views;
+    }
+
+    public void setViews(Integer views) {
+        this.views = views;
+    }
+
+    public List<CommentEntity> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentEntity> comments) {
+        this.comments = comments;
+    }
+
+    public List<SavedPostEntity> getSavingUsers() {
+        return savingUsers;
+    }
+
+    public void setSavingUsers(List<SavedPostEntity> savingUsers) {
+        this.savingUsers = savingUsers;
     }
 }

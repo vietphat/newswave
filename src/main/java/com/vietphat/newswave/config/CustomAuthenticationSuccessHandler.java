@@ -1,5 +1,6 @@
 package com.vietphat.newswave.config;
 
+import com.vietphat.newswave.enums.UserRole;
 import com.vietphat.newswave.utils.SecurityUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,15 +37,14 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         String url = "";
 
-        if (authorities.contains("ROLE_ADMIN") || authorities.contains("ROLE_JOURNALIST")) {
+        if (authorities.contains("ROLE_" + UserRole.SUPER_ADMIN)) {
             url = "/quan-tri";
-        } else if (authorities.contains("ROLE_USER")) {
+        } else if (authorities.contains("ROLE_" + UserRole.USER)) {
             url = "/trang-chu";
         }
 
         return url;
     }
-
 
     @Override
     public RedirectStrategy getRedirectStrategy() {
