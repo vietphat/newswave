@@ -11,11 +11,16 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.internal.util.Assert;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -72,10 +77,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity findById(Long id) {
+    public UserDTO findById(Long id) {
         Optional<UserEntity> user = userRepository.findById(id);
 
-        return user.get();
+        UserDTO userDTO = modelMapper.map(user.get(), UserDTO.class);
+
+        return userDTO;
     }
 
     @Override
@@ -83,6 +90,30 @@ public class UserServiceImpl implements UserService {
         UserEntity user = userRepository.findByIdAndStatus(id, status);
 
         return user;
+    }
+
+    @Override
+    public UserDTO findAll(Pageable pageable) {
+
+        Page<UserEntity> page = userRepository.findAll(pageable);
+
+        UserDTO userDTO = new UserDTO();
+
+        userDTO.setListResult(
+                page.getContent().stream()
+                .map(user -> modelMapper.map(user, UserDTO.class))
+                .collect(Collectors.toList())
+        );
+
+        userDTO.setCurrentPage(page.getNumber() + 1);
+        userDTO.setTotalPages(page.getTotalPages());
+
+        return userDTO;
+    }
+
+    @Override
+    public Long getTotalItems() {
+        return userRepository.count();
     }
 
     @Override

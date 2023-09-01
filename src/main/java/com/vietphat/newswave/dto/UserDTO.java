@@ -5,7 +5,7 @@ import com.vietphat.newswave.enums.UserStatus;
 import java.util.Date;
 import java.util.List;
 
-public class UserDTO extends BaseDTO {
+public class UserDTO extends BaseDTO<UserDTO> {
 
     private String fullName;
 

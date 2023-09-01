@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/dashboard}"
+>
+
+<head>
+    <title th:text="${model.id == null ? 'Thêm mới' : 'Chỉnh sửa'}"/>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800"
+        th:text="${model.id == null ? 'Thêm mới người dùng' : 'Chỉnh sửa người dùng'}"/>
+
+    <div class="card">
+        <div class="card-header d-flex justify-content-between">
+            <p class="mb-0">Các trường đánh dấu <span class="text-danger">(*)</span> là các trường bắt buộc.</p>
+            <a class="mb-0" th:href="@{/quan-tri/nguoi-dung/danh-sach}">
+                Quay lại danh sách
+            </a>
+        </div>
+        <div class="card-body">
+            <form th:object="${model}" method="post" class="row">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="form-group col-6">
+                    <label th:for="username">Tên đăng nhập <span class="text-danger">(*)</span></label>
+                    <input th:field="*{username}" type="text" class="form-control" placeholder="Tên đăng nhập..."/>
+                </div>
+
+                <div th:if="${model.id == null}" class="form-group col-6">
+                    <label th:for="password">Mật khẩu <span class="text-danger">(*)</span></label>
+                    <input th:field="*{password}" type="password" class="form-control" placeholder="Mật khẩu..."/>
+                </div>
+
+                <div th:if="${model.id != null}" class="form-group col-6">
+                    <!-- Button trigger change password modal -->
+                    <label>Thay đổi mật khẩu</label>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-secondary btn-icon-split" data-toggle="modal"
+                                data-target="#changePasswordModal">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-key"></i>
+                            </span>
+                            <span class="text">Thay đổi mật khẩu</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group col-6">
+                    <label th:for="fullName">Tên đầy đủ <span class="text-danger">(*)</span></label>
+                    <input th:field="*{fullName}" type="text" class="form-control" placeholder="Tên đầy đủ..."/>
+                </div>
+
+                <div class="form-group col-6">
+                    <label th:for="email">Địa chỉ email <span class="text-danger">(*)</span></label>
+                    <input th:field="*{email}" type="email" class="form-control" placeholder="Email..."/>
+                </div>
+
+                <div class="form-group col-6">
+                    <label th:for="phoneNumber">Số điện thoại</label>
+                    <input th:field="*{phoneNumber}" type="text" class="form-control" placeholder="Số điện thoại..."/>
+                </div>
+
+                <div class="form-group col-6">
+                    <label th:for="dateOfBirth">Ngày sinh</label>
+                    <input th:field="*{dateOfBirth}" type="date" class="form-control"/>
+                </div>
+
+                <div class="form-group col-12">
+                    <label th:for="address">Địa chỉ</label>
+                    <textarea th:field="*{address}" rows="4" class="form-control" placeholder="Địa chỉ..."></textarea>
+                </div>
+
+                <div class="form-group col-12">
+                    <button th:class="|btn btn-${model.id == null ? 'success' : 'info'}|" type="submit"
+                            th:text="${model.id == null ? 'Thêm' : 'Sửa'}"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="bottom-content">
+    <!-- Change Password Modal -->
+    <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModal"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thay đổi mật khẩu</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{/quan-tri/nguoi-dung/doi-mat-khau/{id}(id=${model.id})}" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="id" value="${model.id}"/>
+                        <div class="form-group">
+                            <input class="form-control" type="password" name="password" placeholder="Mật khẩu..."/>
+                            <span class="text-danger">Vui lòng điền mật khẩu</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                        <button type="button" class="btn btn-info">Lưu thay đổi</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

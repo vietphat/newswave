@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/dashboard}"
+>
+
+<head>
+    <title>Danh sách tài khoản</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">Danh sách người dùng</h1>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <a th:href="@{/quan-tri/nguoi-dung/them}" class="btn btn-success btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-plus"></i>
+                </span>
+                <span class="text">Thêm mới</span>
+            </a>
+
+            <!-- Search -->
+            <form class="col-4">
+                <div class="input-group">
+                    <input type="text" class="form-control bg-light small" placeholder="Tìm kiếm..."
+                           aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button">
+                            <i class="fas fa-search fa-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Tên đăng nhập</th>
+                        <th>Tên đầy đủ</th>
+                        <th>Tạo bởi</th>
+                        <th>Ngày tạo</th>
+                        <th>Thao tác</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="item : ${model.listResult}">
+                        <td th:text="${item.id}"/>
+                        <td th:text="${item.username}"/>
+                        <td th:text="${item.fullName}"/>
+                        <td th:text="${item.createdBy}">
+                        <td th:text="${#dates.format(item.createdDate, 'dd-MM-yyyy hh:mm:ss')}"/>
+                        <td>
+                            <a th:href="@{/quan-tri/nguoi-dung/danh-sach/{id}(id=${item.id})}" class="btn btn-secondary">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a th:href="@{/quan-tri/nguoi-dung/chinh-sua/{id}(id=${item.id})}" class="btn btn-info">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a th:href="@{/quan-tri/nguoi-dung/xoa/{id}(id=${item.id})}" class="btn btn-danger">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="container d-flex justify-content-center">
+                    <ul class="pagination" id="pagination"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /.container-fluid -->
+
+    <form id="pageForm" class="hidden">
+        <input type="hidden" id="page" name="page"/>
+        <input type="hidden" id="offset" name="offset"/>
+    </form>
+
+    <script type="text/javascript" th:inline="javascript" async>
+        $(function () {
+            const currentPage = /*[[${model.currentPage}]]*/;
+            const totalPages = /*[[${model.totalPages}]]*/;
+            const offset = 5;
+
+            window.pagObj = $('#pagination').twbsPagination({
+                startPage: currentPage,
+                totalPages: totalPages,
+                visiblePages: 3,
+                onPageClick: function (event, page) {
+                    if (currentPage != page) {
+                        $('#page').val(page);
+                        $('#offset').val(offset);
+                        $('#pageForm').submit();
+                    }
+                }
+            }).on('page', function (event, page) {
+
+            });
+        });
+
+
+
+    </script>
+</div>
+</body>
+</html>

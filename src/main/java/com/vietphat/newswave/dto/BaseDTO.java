@@ -1,8 +1,9 @@
 package com.vietphat.newswave.dto;
 
 import java.util.Date;
+import java.util.List;
 
-public abstract class BaseDTO {
+public abstract class BaseDTO<T> {
 
     private Long id;
 
@@ -13,6 +14,18 @@ public abstract class BaseDTO {
     private String modifiedBy;
 
     private Date modifiedDate;
+
+    private Integer currentPage = 1;
+
+    private Integer offset = 10;
+
+    private int totalPages;
+
+    private Long totalItems;
+
+    private Integer visiblePageItems = 5;
+
+    private List<T> listResult;
 
     public BaseDTO() {
     }
@@ -63,5 +76,53 @@ public abstract class BaseDTO {
 
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    public Integer getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(Integer currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
+
+    public Long getTotalItems() {
+        return totalItems;
+    }
+
+    public void setTotalItems(Long totalItems) {
+        this.totalItems = totalItems;
+    }
+
+    public Integer getVisiblePageItems() {
+        return visiblePageItems;
+    }
+
+    public void setVisiblePageItems(Integer visiblePageItems) {
+        this.visiblePageItems = visiblePageItems;
+    }
+
+    public List<T> getListResult() {
+        return listResult;
+    }
+
+    public void setListResult(List<T> listResult) {
+        this.listResult = listResult;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
     }
 }
