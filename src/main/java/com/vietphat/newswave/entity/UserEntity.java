@@ -3,6 +3,7 @@ package com.vietphat.newswave.entity;
 import com.vietphat.newswave.enums.UserStatus;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -38,21 +39,22 @@ public class UserEntity extends BaseEntity {
     @Column(name = "status", nullable = false)
     private UserStatus status = UserStatus.ACTIVE;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<RoleEntity> roles;
+    private List<RoleEntity> roles = new ArrayList<>();
+    ;;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(name = "user_comment",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "comment_id")
     )
-    private List<CommentEntity> comments;
+    private List<CommentEntity> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<SavedPostEntity> savedPosts;
+    private List<SavedPostEntity> savedPosts = new ArrayList<>();
 
     public UserEntity() {
     }
@@ -165,4 +167,17 @@ public class UserEntity extends BaseEntity {
         this.comments = comments;
     }
 
+    public void addRole(RoleEntity role) {
+        if (role != null) {
+            this.roles.add(role);
+        }
+    }
+
+    public void addRoles(List<RoleEntity> roles) {
+        for (RoleEntity role : roles) {
+            if (role != null) {
+                this.roles.add(role);
+            }
+        }
+    }
 }

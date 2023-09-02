@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/dashboard}"
+>
+
+<head>
+    <title>Thông tin người dùng</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">Thông tin người dùng</h1>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <p class="mb-0" th:text="${model.fullName}"/>
+            <a class="mb-0" th:href="@{/quan-tri/nguoi-dung/danh-sach}">
+                Quay lại danh sách
+            </a>
+        </div>
+
+        <div class="card-body">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <th>Tên đầy đủ</th>
+                    <td th:text="${model.fullName}"></td>
+                </tr>
+                <tr>
+                    <th>Tên đăng nhập</th>
+                    <td th:text="${model.username}"></td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td th:text="${model.email}"></td>
+                </tr>
+                <tr>
+                    <th>Số điện thoại</th>
+                    <td th:text="${model.phoneNumber}"></td>
+                </tr>
+                <tr>
+                    <th>Ngày sinh</th>
+                    <td th:text="${#dates.format(model.dateOfBirth, 'dd-MM-yyyy')}"></td>
+                </tr>
+                <tr>
+                    <th>Địa chỉ</th>
+                    <td th:text="${model.address}"></td>
+                </tr>
+                <tr>
+                    <th>Lần đăng nhập gần nhất</th>
+                    <td th:text="${#dates.format(model.lastLogin, 'dd-MM-yyyy hh:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>Trạng thái</th>
+                    <td th:class="${model.status.ordinal == 1 ? 'text-success' : 'text-danger'}"
+                        th:text="${model.status.ordinal == 1 ? 'Đang hoạt động' : 'Đã bị chặn'}"></td>
+                </tr>
+                <tr>
+                    <th>Tạo bởi</th>
+                    <td th:text="${model.createdBy}"></td>
+                </tr>
+                <tr>
+                    <th>Quyền</th>
+                    <td>
+                        <p class="mb-0" th:each="role : ${model.roles}">
+                            <span class="badge badge-secondary" th:text="|${role.code}: ${role.name}|"/>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Ngày tạo</th>
+                    <td th:text="${#dates.format(model.createdDate, 'dd-MM-yyyy hh:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>Lần chỉnh sửa cuối cùng bởi</th>
+                    <td th:text="${model.modifiedBy}"></td>
+                </tr>
+                <tr>
+                    <th>Lần chỉnh sửa cuối cùng</th>
+                    <td th:text="${#dates.format(model.modifiedDate, 'dd-MM-yyyy hh:mm:ss')}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+
+</div>
+</body>
+</html>

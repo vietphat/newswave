@@ -6,7 +6,7 @@
 >
 
 <head>
-    <title>Danh sách tài khoản</title>
+    <title>Danh sách người dùng</title>
 </head>
 
 <body>
@@ -16,6 +16,14 @@
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
+        <!--      messages      -->
+        <div th:if="${message != null}" th:class="|alert alert-${alert} alert-dismissible fade show text-center|" role="alert">
+            <span th:class="|text-${alert} mb-0|" th:text="${message}" />
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <a th:href="@{/quan-tri/nguoi-dung/them}" class="btn btn-success btn-icon-split">
                 <span class="icon text-white-50">
@@ -25,17 +33,19 @@
             </a>
 
             <!-- Search -->
-            <form class="col-4">
-                <div class="input-group">
-                    <input type="text" class="form-control bg-light small" placeholder="Tìm kiếm..."
-                           aria-label="Search" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">
-                            <i class="fas fa-search fa-sm"></i>
-                        </button>
+            <div class="col-4">
+                <form>
+                    <div class="input-group">
+                        <input type="text" class="form-control bg-light small" placeholder="Tìm kiếm..."
+                               aria-label="Search" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fas fa-search fa-sm"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">

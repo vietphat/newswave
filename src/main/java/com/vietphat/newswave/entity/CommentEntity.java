@@ -2,6 +2,7 @@ package com.vietphat.newswave.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,10 +17,10 @@ public class CommentEntity extends BaseEntity {
     private CommentEntity parent;
 
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<CommentEntity> replies;
+    private List<CommentEntity> replies = new ArrayList<>();;
 
     @ManyToMany(mappedBy = "comments")
-    private List<UserEntity> users;
+    private List<UserEntity> users = new ArrayList<>();;
 
     @ManyToOne
     @JoinColumn(name = "post_id")

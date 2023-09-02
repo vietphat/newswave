@@ -11,6 +11,10 @@ import java.util.List;
 
 public interface UserService extends UniqueFieldService {
 
+    UserDTO findUserWithRolesById(Long id);
+
+    UserDTO findUserWithRolesByUsernameAndStatus(String username, UserStatus userStatus);
+
     UserDTO findByUsernameAndStatus(String username, UserStatus userStatus);
 
     UserEntity findByEmailAndStatus(String email, UserStatus userStatus);
@@ -28,4 +32,7 @@ public interface UserService extends UniqueFieldService {
     UserDTO findAll(Pageable pageable);
 
     Long getTotalItems();
+
+    UserDTO save(UserDTO userDTO);
+
 }

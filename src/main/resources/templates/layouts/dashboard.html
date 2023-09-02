@@ -48,7 +48,7 @@
 <!-- Page Wrapper -->
 <div id="wrapper">
 
-    <div th:replace="fragments/dashboard/sidebar :: sidebar"></div>
+    <div th:replace="~{fragments/dashboard/sidebar :: sidebar}"></div>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -57,7 +57,7 @@
         <div id="content">
 
             <!-- Topbar -->
-            <div th:replace="fragments/dashboard/topbar :: topbar"></div>
+            <div th:replace="~{fragments/dashboard/topbar :: topbar}"></div>
             <!-- End of Topbar -->
 
             <!-- Begin Page Content -->
@@ -70,7 +70,7 @@
         <!-- End of Main Content -->
 
         <!-- Footer -->
-        <div th:replace="fragments/dashboard/footer :: footer"></div>
+        <div th:replace="~{fragments/dashboard/footer :: footer}"></div>
         <!-- End of Footer -->
 
     </div>
@@ -80,13 +80,13 @@
 <!-- End of Page Wrapper -->
 
 <!-- Scroll to Top Button-->
-<div th:replace="fragments/dashboard/scroll-to-top-button :: button"></div>
+<div th:replace="~{fragments/dashboard/scroll-to-top-button :: button}"></div>
 
 <!-- Logout Modal-->
-<div th:replace="fragments/dashboard/logout-model :: logout-model"></div>
+<div th:replace="~{fragments/dashboard/logout-model :: logout-model}"></div>
 
 <div layout:fragment="bottom-content">
-    <p>Tất cả những thứ cuối cùng trước khi kết thúc thẻ body sẽ đặt ở đây!</p>
+    <!--  Tất cả những thứ cuối cùng trước khi kết thúc thẻ body sẽ đặt ở đây!  -->
 </div>
 
 </body>

@@ -3,6 +3,7 @@ package com.vietphat.newswave.entity;
 import com.vietphat.newswave.enums.UserRole;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,7 +18,7 @@ public class RoleEntity extends BaseEntity {
     private UserRole code;
 
     @ManyToMany(mappedBy = "roles")
-    private List<UserEntity> users;
+    private List<UserEntity> users = new ArrayList<>();
 
     public RoleEntity() {
     }

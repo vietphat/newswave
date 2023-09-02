@@ -4,6 +4,7 @@ import com.vietphat.newswave.entity.key.SavedPostId;
 import com.vietphat.newswave.enums.PostStatus;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,13 +46,16 @@ public class PostEntity extends BaseEntity {
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    private List<TagEntity> tags;
+    private List<TagEntity> tags = new ArrayList<>();
+    ;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<CommentEntity> comments;
+    private List<CommentEntity> comments = new ArrayList<>();
+    ;
 
     @OneToMany(mappedBy = "post")
-    private List<SavedPostEntity> savingUsers;
+    private List<SavedPostEntity> savingUsers = new ArrayList<>();
+    ;
 
     public PostEntity() {
     }

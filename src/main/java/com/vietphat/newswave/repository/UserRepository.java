@@ -3,8 +3,13 @@ package com.vietphat.newswave.repository;
 import com.vietphat.newswave.entity.UserEntity;
 import com.vietphat.newswave.enums.UserStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
+
+    @Query("SELECT u FROM UserEntity u JOIN FETCH u.roles WHERE u.username = :username and u.status = :status")
+    UserEntity findUserWithRolesByUsernameAndStatus(@Param("username") String username, @Param("status") UserStatus status);
 
     UserEntity findByUsernameAndStatus(String username, UserStatus status);
 
@@ -15,5 +20,10 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     boolean existsByEmail(String value);
 
     boolean existsByUsername(String value);
+
+    boolean existsByPhoneNumber(String value);
+
+    @Query("SELECT u FROM UserEntity u JOIN FETCH u.roles WHERE u.id = :userId")
+    UserEntity findUserWithRolesById(@Param("userId") Long id);
 
 }

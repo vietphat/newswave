@@ -28,11 +28,13 @@
                 <div class="form-group col-6">
                     <label th:for="username">Tên đăng nhập <span class="text-danger">(*)</span></label>
                     <input th:field="*{username}" type="text" class="form-control" placeholder="Tên đăng nhập..."/>
+                    <span class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"/>
                 </div>
 
                 <div th:if="${model.id == null}" class="form-group col-6">
                     <label th:for="password">Mật khẩu <span class="text-danger">(*)</span></label>
                     <input th:field="*{password}" type="password" class="form-control" placeholder="Mật khẩu..."/>
+                    <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"/>
                 </div>
 
                 <div th:if="${model.id != null}" class="form-group col-6">
@@ -52,26 +54,64 @@
                 <div class="form-group col-6">
                     <label th:for="fullName">Tên đầy đủ <span class="text-danger">(*)</span></label>
                     <input th:field="*{fullName}" type="text" class="form-control" placeholder="Tên đầy đủ..."/>
+                    <span class="text-danger" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"/>
                 </div>
 
                 <div class="form-group col-6">
                     <label th:for="email">Địa chỉ email <span class="text-danger">(*)</span></label>
                     <input th:field="*{email}" type="email" class="form-control" placeholder="Email..."/>
+                    <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"/>
                 </div>
 
                 <div class="form-group col-6">
                     <label th:for="phoneNumber">Số điện thoại</label>
                     <input th:field="*{phoneNumber}" type="text" class="form-control" placeholder="Số điện thoại..."/>
+                    <span class="text-danger" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"/>
                 </div>
 
                 <div class="form-group col-6">
                     <label th:for="dateOfBirth">Ngày sinh</label>
-                    <input th:field="*{dateOfBirth}" type="date" class="form-control"/>
+                    <input th:field="*{dateOfBirth}" type="date" class="form-control" pattern="yyyy-MM-dd" />
+                    <span class="text-danger" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"/>
                 </div>
+
+                <div class="col-12 mb-3">
+                    <label>Chọn quyền người dùng <span class="text-danger">(*)</span></label>
+                    <span class="text-danger" th:if="${#fields.hasErrors('roleCodes')}" th:errors="*{roleCodes}"/>
+                    <div class="row mx-2 p-2 border rounded">
+                        <div class="form-check col-6" th:each="role : ${T(com.vietphat.newswave.enums.UserRole).values()}">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   th:id="|role-${role.ordinal}|"
+                                   th:field="*{roleCodes}"
+                                   th:value="${role}"
+                                   th:checked="${model.containsRole(role)}"
+                            />
+
+                            <label class="form-check-label" th:for="|role-${role.ordinal}|"
+                                   th:text="${#strings.capitalize(role.toString())}"/>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="form-group col-12">
                     <label th:for="address">Địa chỉ</label>
                     <textarea th:field="*{address}" rows="4" class="form-control" placeholder="Địa chỉ..."></textarea>
+                    <span class="text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"/>
+                </div>
+
+                <div th:if="${model.id != null}" class="form-group col-12">
+                    <label th:for="status">Trạng thái hoạt động</label>
+                    <select th:if="${model.id != null}" th:field="*{status}" class="custom-select">
+                        <option th:each="status : ${userStatus}"
+                                th:value="${status}"
+                                th:text="${status.ordinal == 1 ? 'Đang hoạt động' : 'Đã bị chặn'}"
+                                th:selected="${model.status == status}">
+                            Trạng thái
+                        </option>
+                    </select>
+                    <span class="text-danger" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"/>
                 </div>
 
                 <div class="form-group col-12">

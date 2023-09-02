@@ -31,7 +31,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserDTO userDTO = userService.findByUsernameAndStatus(username, UserStatus.ACTIVE);
+        UserDTO userDTO = userService.findUserWithRolesByUsernameAndStatus(username, UserStatus.ACTIVE);
 
         if (userDTO == null) {
             throw new UsernameNotFoundException("Username not found");

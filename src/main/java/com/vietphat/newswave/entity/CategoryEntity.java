@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,7 +19,7 @@ public class CategoryEntity extends BaseEntity {
     private String code;
 
     @OneToMany(mappedBy = "category")
-    private List<PostEntity> posts;
+    private List<PostEntity> posts = new ArrayList<>();
 
     public CategoryEntity() {
     }
