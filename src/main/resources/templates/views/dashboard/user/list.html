@@ -99,35 +99,31 @@
         <input type="hidden" id="size" name="size"/>
         <input type="hidden" id="search" name="search"/>
     </form>
-
-    <script type="text/javascript" th:inline="javascript" async>
-        $(function () {
-            const currentPage = /*[[${model.currentPage}]]*/;
-            const totalPages = /*[[${model.totalPages}]]*/;
-            const search = /*[[${model.search}]]*/
-            const size = 5;
-
-            window.pagObj = $('#pagination').twbsPagination({
-                startPage: currentPage,
-                totalPages: totalPages,
-                visiblePages: 3,
-                onPageClick: function (event, page) {
-                    if (currentPage != page) {
-                        $('#page').val(page);
-                        $('#size').val(size);
-                        $('#search').val(search);
-                        $('#pageForm').submit();
-                    }
-                }
-            }).on('page', function (event, page) {
-
-            });
-        });
-
-
-
-
-    </script>
 </div>
+
+<script layout:fragment="scripts" type="text/javascript" th:inline="javascript">
+    $(function () {
+        const currentPage = /*[[${model.currentPage}]]*/;
+        const totalPages = /*[[${model.totalPages}]]*/;
+        const search = /*[[${model.search}]]*/;
+        const size = 5;
+
+        window.pagObj = $('#pagination').twbsPagination({
+            startPage: currentPage,
+            totalPages: totalPages,
+            visiblePages: 3,
+            onPageClick: function (event, page) {
+                if (currentPage != page) {
+                    $('#page').val(page);
+                    $('#size').val(size);
+                    $('#search').val(search);
+                    $('#pageForm').submit();
+                }
+            }
+        }).on('page', function (event, page) {
+
+        });
+    });
+</script>
 </body>
 </html>

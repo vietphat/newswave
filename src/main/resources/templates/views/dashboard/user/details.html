@@ -28,7 +28,7 @@
                 <tbody>
                 <tr>
                     <th>Id</th>
-                    <td>1</td>
+                    <td th:text="${model.id}"></td>
                 </tr>
                 <tr>
                     <th>Tên đầy đủ</th>
@@ -64,16 +64,16 @@
                         th:text="${model.status.ordinal == 1 ? 'Đang hoạt động' : 'Đã bị chặn'}"></td>
                 </tr>
                 <tr>
-                    <th>Tạo bởi</th>
-                    <td th:text="${model.createdBy}"></td>
-                </tr>
-                <tr>
                     <th>Quyền</th>
                     <td>
                         <p class="mb-0" th:each="role : ${model.roles}">
                             <span class="badge badge-secondary" th:text="|${role.code}: ${role.name}|"/>
                         </p>
                     </td>
+                </tr>
+                <tr>
+                    <th>Tạo bởi</th>
+                    <td th:text="${model.createdBy}"></td>
                 </tr>
                 <tr>
                     <th>Ngày tạo</th>
