@@ -27,6 +27,8 @@ public abstract class BaseDTO<T> {
 
     private List<T> listResult;
 
+    private String search;
+
     public BaseDTO() {
     }
 
@@ -124,5 +126,13 @@ public abstract class BaseDTO<T> {
 
     public void setTotalPages(int totalPages) {
         this.totalPages = totalPages;
+    }
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
     }
 }

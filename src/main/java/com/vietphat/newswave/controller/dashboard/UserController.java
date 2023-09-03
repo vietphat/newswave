@@ -37,11 +37,12 @@ public class UserController {
     @GetMapping("/danh-sach")
     public String getList(Model model,
                           @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
-                          @RequestParam(value = "size", required = false, defaultValue = "5") Integer size) {
+                          @RequestParam(value = "size", required = false, defaultValue = "5") Integer size,
+                          @RequestParam(value = "search", required = false) String search) {
 
         Pageable pageable = PageRequest.of(page - 1, size);
 
-        UserDTO userDTO = userService.findAll(pageable);
+        UserDTO userDTO = userService.findAll(pageable, search);
 
         model.addAttribute("model", userDTO);
         return "views/dashboard/user/list";

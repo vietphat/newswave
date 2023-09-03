@@ -120,20 +120,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO findAll(Pageable pageable) {
-
-        Page<UserEntity> page = userRepository.findAll(pageable);
+    public UserDTO findAll(Pageable pageable, String search) {
 
         UserDTO userDTO = new UserDTO();
 
+        Page<UserEntity> page;
+        if (search != null && !search.isEmpty()) {
+            page = userRepository.searchUsersWithPagination(search, pageable);
+            userDTO.setSearch(search);
+        } else {
+            page = userRepository.findAll(pageable);
+        }
+
+        userDTO.setCurrentPage(page.getNumber() + 1);
+        userDTO.setTotalPages(page.getTotalPages());
         userDTO.setListResult(
                 page.getContent().stream()
                         .map(user -> modelMapper.map(user, UserDTO.class))
                         .collect(Collectors.toList())
         );
-
-        userDTO.setCurrentPage(page.getNumber() + 1);
-        userDTO.setTotalPages(page.getTotalPages());
 
         return userDTO;
     }
