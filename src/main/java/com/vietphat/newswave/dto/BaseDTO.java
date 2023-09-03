@@ -17,7 +17,7 @@ public abstract class BaseDTO<T> {
 
     private Integer currentPage = 1;
 
-    private Integer offset = 10;
+    private Integer size = 5;
 
     private int totalPages;
 
@@ -86,12 +86,12 @@ public abstract class BaseDTO<T> {
         this.currentPage = currentPage;
     }
 
-    public Integer getOffset() {
-        return offset;
+    public Integer getSize() {
+        return size;
     }
 
-    public void setOffset(Integer offset) {
-        this.offset = offset;
+    public void setSize(Integer size) {
+        this.size = size;
     }
 
     public Long getTotalItems() {

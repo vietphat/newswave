@@ -18,10 +18,10 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
 
         if (o instanceof UserRegistrationDTO) {
             UserRegistrationDTO user = (UserRegistrationDTO) o;
-            isValid = user.getPassword().equals(user.getConfirmPassword());
-        } else if (o instanceof ResetPasswordDTO){
+            isValid = user.getPassword() != null && user.getPassword().equals(user.getConfirmPassword());
+        } else if (o instanceof ResetPasswordDTO) {
             ResetPasswordDTO user = (ResetPasswordDTO) o;
-            isValid = user.getPassword().equals(user.getConfirmPassword());
+            isValid = user.getPassword() != null && user.getPassword().equals(user.getConfirmPassword());
         }
 
         if (!isValid) {

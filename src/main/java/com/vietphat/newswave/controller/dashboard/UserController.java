@@ -1,6 +1,5 @@
 package com.vietphat.newswave.controller.dashboard;
 
-import com.vietphat.newswave.dto.RoleDTO;
 import com.vietphat.newswave.dto.UserDTO;
 import com.vietphat.newswave.enums.UserStatus;
 import com.vietphat.newswave.service.RoleService;
@@ -20,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 @Controller
 @RequestMapping("/quan-tri/nguoi-dung")
@@ -39,9 +37,9 @@ public class UserController {
     @GetMapping("/danh-sach")
     public String getList(Model model,
                           @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
-                          @RequestParam(value = "offset", required = false, defaultValue = "5") Integer offset) {
+                          @RequestParam(value = "size", required = false, defaultValue = "5") Integer size) {
 
-        Pageable pageable = PageRequest.of(page - 1, offset);
+        Pageable pageable = PageRequest.of(page - 1, size);
 
         UserDTO userDTO = userService.findAll(pageable);
 
@@ -80,7 +78,7 @@ public class UserController {
         // gọi service thêm dữ liệu
         UserDTO createdUserDTO = userService.save(userDTO);
 
-        if (createdUserDTO != null) {
+        if (createdUserDTO == null) {
             redirectAttributes.addFlashAttribute("alert", "danger");
             redirectAttributes.addFlashAttribute("message", "Đã xảy ra lỗi máy chủ");
             return "redirect:/quan-tri/nguoi-dung/danh-sach";
@@ -88,7 +86,7 @@ public class UserController {
 
         redirectAttributes.addFlashAttribute("alert", "success");
         redirectAttributes.addFlashAttribute("message", "Thêm người dùng thành công");
-        return "redirect:/quan-tri/nguoi-dung/danh-sach?page=" + createdUserDTO.getCurrentPage();
+        return "redirect:/quan-tri/nguoi-dung/danh-sach?page=" + createdUserDTO.getCurrentPage() + "&size=5";
     }
 
     @GetMapping("/chinh-sua/{id}")

@@ -12,10 +12,10 @@ import java.util.List;
 
 public class UserDTO extends BaseDTO<UserDTO> {
 
-    @NotBlank(message = "Tên đầy đủ là bắt buộc")
+    @NotNull(message = "Tên đầy đủ là bắt buộc")
     private String fullName;
 
-    @NotBlank(message = "Email là bắt buộc")
+    @NotNull(message = "Email là bắt buộc")
     @Email(message = "Email không hợp lệ")
     @UniqueField(fieldName = "email", service = UserService.class, message = "Email đã được sử dụng")
     private String email;
@@ -28,11 +28,12 @@ public class UserDTO extends BaseDTO<UserDTO> {
 
     private String address;
 
-    @NotBlank(message = "Tên đăng nhập là bắt buộc")
+    @NotNull(message = "Tên đăng nhập là bắt buộc")
     @UniqueField(fieldName = "username", service = UserService.class, message = "Tên đăng nhập đã được sử dụng")
+    @Pattern(regexp = "^(?=.*[a-zA-Z])([a-zA-Z0-9_.-]*[a-zA-Z0-9])?$", message = "Tên đăng nhập chỉ chứa các kí tự cho phép gồm: chữ in hoa, chữ in thường, chữ số (a-z, A-Z, 0-9), dấu gạch dưới, dấu gạch ngang và dấu chấm. Tên đăng nhập phải bắt đầu hoặc kết thúc bằng chữ cái hoặc chữ số và phải chứa ít nhất một chữ cái.")
     private String username;
 
-    @NotBlank(message = "Mật khẩu là bắt buộc và không được chứa khoảng cách")
+    @NotNull(message = "Mật khẩu là bắt buộc và không được chứa khoảng cách")
     @Size(min = 4, message = "Mật khẩu phải có ít nhất 4 ký tự")
     private String password;
 

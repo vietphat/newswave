@@ -94,14 +94,14 @@
 
     <form id="pageForm" class="hidden">
         <input type="hidden" id="page" name="page"/>
-        <input type="hidden" id="offset" name="offset"/>
+        <input type="hidden" id="size" name="size"/>
     </form>
 
     <script type="text/javascript" th:inline="javascript" async>
         $(function () {
             const currentPage = /*[[${model.currentPage}]]*/;
             const totalPages = /*[[${model.totalPages}]]*/;
-            const offset = 5;
+            const size = 5;
 
             window.pagObj = $('#pagination').twbsPagination({
                 startPage: currentPage,
@@ -110,7 +110,7 @@
                 onPageClick: function (event, page) {
                     if (currentPage != page) {
                         $('#page').val(page);
-                        $('#offset').val(offset);
+                        $('#size').val(size);
                         $('#pageForm').submit();
                     }
                 }

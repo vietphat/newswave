@@ -12,14 +12,20 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/xac-thuc")
@@ -42,11 +48,17 @@ public class AuthController {
 
     @GetMapping("/dang-nhap")
     public String loginPage(@RequestParam(name = "incorrectCredentials", required = false) String incorrectCredentials,
+                            @RequestParam(name = "logout", required = false) String logout,
                             Model model) {
 
-        if (incorrectCredentials != null) {
+        if (incorrectCredentials != null && incorrectCredentials.equals("true")) {
             model.addAttribute("alert", "danger");
             model.addAttribute("message", "Tài khoản hoặc mật khẩu chưa chính xác");
+        }
+
+        if (logout != null && logout.equals("true")) {
+            model.addAttribute("alert", "success");
+            model.addAttribute("message", "Đăng xuất thành công");
         }
 
         return "views/auth/login.html";
@@ -73,10 +85,9 @@ public class AuthController {
             redirectAttributes.addFlashAttribute("alert", "success");
             redirectAttributes.addFlashAttribute("message", "Đăng ký tài khoản thành công!");
             redirectAttributes.addFlashAttribute("username", user.getUsername());
-            return "redirect:/xac-thuc/dang-nhap";
         }
 
-        return ""; // TODO: ADD SERVER ERROR PAGE
+        return "redirect:/xac-thuc/dang-nhap";
     }
 
     @GetMapping("/dang-xuat")
@@ -85,16 +96,23 @@ public class AuthController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication != null) {
-
             new SecurityContextLogoutHandler().logout(request, response, authentication);
         }
 
-        return "redirect:/dang-nhap";
+        return "redirect:/xac-thuc/dang-nhap?logout=true";
     }
 
     @GetMapping("/tu-choi-truy-cap")
     public String accessDeniedPage() {
 
         return "views/auth/access-denied.html";
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder) {
+
+        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+
+        dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
 }

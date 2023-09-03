@@ -67,7 +67,7 @@ public class WebSecurityConfig {
                             .permitAll()
                             .loginProcessingUrl("/j_spring_security_check")
                             .successHandler(authenticationSuccessHandler())
-                            .failureUrl("/xac-thuc/dang-nhap?incorrectCredentials");
+                            .failureUrl("/xac-thuc/dang-nhap?incorrectCredentials=true");
                 })
                 .logout(config -> {
                     config
@@ -81,7 +81,7 @@ public class WebSecurityConfig {
                 .sessionManagement(config -> {
                     config
                             .maximumSessions(1)
-                            .expiredUrl("/xac-thuc/dang-nhap?sessionTimeout");
+                            .expiredUrl("/xac-thuc/dang-nhap?sessionTimeout=true");
                 });
 
         http.authenticationProvider(authenticationProvider());
