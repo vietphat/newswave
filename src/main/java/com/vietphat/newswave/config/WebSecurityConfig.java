@@ -72,6 +72,7 @@ public class WebSecurityConfig {
                 .logout(config -> {
                     config
                             .logoutUrl("/xac-thuc/dang-xuat")
+                            .logoutSuccessUrl("/xac-thuc/dang-nhap?logout=true")
                             .deleteCookies("JSESSIONID");
                 })
                 .exceptionHandling(config -> {

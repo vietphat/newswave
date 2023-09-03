@@ -90,18 +90,6 @@ public class AuthController {
         return "redirect:/xac-thuc/dang-nhap";
     }
 
-    @GetMapping("/dang-xuat")
-    public String logout(HttpServletRequest request, HttpServletResponse response) {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication != null) {
-            new SecurityContextLogoutHandler().logout(request, response, authentication);
-        }
-
-        return "redirect:/xac-thuc/dang-nhap?logout=true";
-    }
-
     @GetMapping("/tu-choi-truy-cap")
     public String accessDeniedPage() {
 
