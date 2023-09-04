@@ -1,8 +1,8 @@
 package com.vietphat.newswave.service.impl;
 
-import com.vietphat.newswave.dto.MyUser;
+import com.vietphat.newswave.dto.user.MyUser;
 import com.vietphat.newswave.dto.RoleDTO;
-import com.vietphat.newswave.dto.UserDTO;
+import com.vietphat.newswave.dto.user.UserDTO;
 import com.vietphat.newswave.enums.UserStatus;
 import com.vietphat.newswave.service.UserService;
 import org.springframework.beans.BeanUtils;

@@ -1,13 +1,11 @@
 package com.vietphat.newswave.service;
 
-import com.vietphat.newswave.dto.ResetPasswordDTO;
-import com.vietphat.newswave.dto.UserDTO;
-import com.vietphat.newswave.dto.UserRegistrationDTO;
+import com.vietphat.newswave.dto.user.ResetPasswordDTO;
+import com.vietphat.newswave.dto.user.UserDTO;
+import com.vietphat.newswave.dto.user.UserRegistrationDTO;
 import com.vietphat.newswave.entity.UserEntity;
 import com.vietphat.newswave.enums.UserStatus;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 public interface UserService extends UniqueFieldService {
 
@@ -23,7 +21,7 @@ public interface UserService extends UniqueFieldService {
 
     void delete(UserEntity entity);
 
-    UserEntity resetPassword(UserEntity user, ResetPasswordDTO resetPasswordDTO);
+    UserDTO resetPassword(ResetPasswordDTO resetPasswordDTO);
 
     UserDTO findById(Long id);
 
@@ -34,5 +32,7 @@ public interface UserService extends UniqueFieldService {
     Long getTotalItems();
 
     UserDTO save(UserDTO userDTO);
+
+    UserDTO update(UserDTO userDTO);
 
 }

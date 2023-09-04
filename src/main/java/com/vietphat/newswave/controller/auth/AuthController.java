@@ -1,31 +1,19 @@
 package com.vietphat.newswave.controller.auth;
 
-import com.vietphat.newswave.dto.ResetPasswordDTO;
-import com.vietphat.newswave.dto.UserRegistrationDTO;
-import com.vietphat.newswave.entity.ResetPasswordTokenEntity;
+import com.vietphat.newswave.dto.user.UserRegistrationDTO;
 import com.vietphat.newswave.entity.UserEntity;
-import com.vietphat.newswave.enums.UserStatus;
 import com.vietphat.newswave.service.EmailService;
 import com.vietphat.newswave.service.ForgotPasswordService;
 import com.vietphat.newswave.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Controller
 @RequestMapping("/xac-thuc")

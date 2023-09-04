@@ -35,6 +35,11 @@ public class RoleDTO extends BaseDTO<RoleDTO> {
         this.code = code;
     }
 
+    public boolean compareTo(UserRole userRole) {
+
+        return this.code.equals(userRole);
+    }
+
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj);

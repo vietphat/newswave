@@ -1,6 +1,6 @@
 package com.vietphat.newswave.controller.auth;
 
-import com.vietphat.newswave.dto.ResetPasswordDTO;
+import com.vietphat.newswave.dto.user.ResetPasswordDTO;
 import com.vietphat.newswave.entity.ResetPasswordTokenEntity;
 import com.vietphat.newswave.entity.UserEntity;
 import com.vietphat.newswave.enums.UserStatus;
@@ -117,7 +117,8 @@ public class ForgotPasswordController {
         }
 
         // lưu mật khẩu mới
-        userService.resetPassword(user, resetPasswordDTO);
+        resetPasswordDTO.setId(user.getId());
+        userService.resetPassword(resetPasswordDTO);
 
         redirectAttributes.addFlashAttribute("alert", "success");
         redirectAttributes.addFlashAttribute("message", "Tạo lại mật khẩu thành công");

@@ -16,6 +16,14 @@
         th:text="${model.id == null ? 'Thêm mới người dùng' : 'Chỉnh sửa người dùng'}"/>
 
     <div class="card">
+        <!--      messages      -->
+        <div th:if="${message != null}" th:class="|alert alert-${alert} alert-dismissible fade show text-center|" role="alert">
+            <span th:class="|text-${alert} mb-0|" th:text="${message}"/>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
         <div class="card-header d-flex justify-content-between">
             <p class="mb-0">Các trường đánh dấu <span class="text-danger">(*)</span> là các trường bắt buộc.</p>
             <a class="mb-0" th:href="@{/quan-tri/nguoi-dung/danh-sach}">
@@ -83,17 +91,15 @@
                             <input class="form-check-input"
                                    type="checkbox"
                                    th:id="|role-${role.ordinal}|"
-                                   th:field="*{roleCodes}"
+                                   th:name="roleCodes"
                                    th:value="${role}"
                                    th:checked="${model.containsRole(role)}"
                             />
-
                             <label class="form-check-label" th:for="|role-${role.ordinal}|"
                                    th:text="${#strings.capitalize(role.toString())}"/>
                         </div>
                     </div>
                 </div>
-
 
                 <div class="form-group col-12">
                     <label th:for="address">Địa chỉ</label>
@@ -103,11 +109,11 @@
 
                 <div th:if="${model.id != null}" class="form-group col-12">
                     <label th:for="status">Trạng thái hoạt động</label>
-                    <select th:if="${model.id != null}" th:field="*{status}" class="custom-select">
-                        <option th:each="status : ${userStatus}"
+                    <select th:field="*{status}" class="custom-select">
+                        <option th:each="status : ${T(com.vietphat.newswave.enums.UserStatus).values()}"
                                 th:value="${status}"
-                                th:text="${status.ordinal == 1 ? 'Đang hoạt động' : 'Đã bị chặn'}"
-                                th:selected="${model.status == status}">
+                                th:text="${#strings.capitalize(status.toString())}"
+                                th:selected="${model.status.equals(status)}">
                             Trạng thái
                         </option>
                     </select>
@@ -135,22 +141,40 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{/quan-tri/nguoi-dung/doi-mat-khau/{id}(id=${model.id})}" method="post">
+                <form th:action="@{/quan-tri/nguoi-dung/doi-mat-khau/{id}(id=${model.id})}"
+                      th:object="${resetPasswordDTO}"
+                      method="post">
                     <div class="modal-body">
-                        <input type="hidden" name="id" value="${model.id}"/>
+                        <input type="hidden" name="id" th:value="${model.id}"/>
                         <div class="form-group">
-                            <input class="form-control" type="password" name="password" placeholder="Mật khẩu..."/>
-                            <span class="text-danger">Vui lòng điền mật khẩu</span>
+                            <input class="form-control" type="password" th:field="*{password}" placeholder="Mật khẩu..."/>
+                            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger" />
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="password" th:field="*{confirmPassword}" placeholder="Xác nhận mật khẩu..."/>
+                            <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="text-danger" />
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
-                        <button type="button" class="btn btn-info">Lưu thay đổi</button>
+                        <button type="submit" class="btn btn-info">Lưu thay đổi</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<script layout:fragment="scripts" type="text/javascript" th:inline="javascript">
+    // Open the modal automatically
+    $(document).ready(function() {
+        const modalIsShown = /*[[${modalIsShown}]]*/;
+
+        if (modalIsShown) {
+            $('#changePasswordModal').modal('show');
+        }
+    });
+</script>
+
 </body>
 </html>

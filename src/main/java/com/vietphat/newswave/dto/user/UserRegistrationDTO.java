@@ -1,4 +1,4 @@
-package com.vietphat.newswave.dto;
+package com.vietphat.newswave.dto.user;
 
 import com.vietphat.newswave.service.UserService;
 import com.vietphat.newswave.validation.passwordmatches.PasswordMatches;

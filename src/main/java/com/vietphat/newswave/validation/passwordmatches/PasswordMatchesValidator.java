@@ -1,7 +1,7 @@
 package com.vietphat.newswave.validation.passwordmatches;
 
-import com.vietphat.newswave.dto.ResetPasswordDTO;
-import com.vietphat.newswave.dto.UserRegistrationDTO;
+import com.vietphat.newswave.dto.user.ResetPasswordDTO;
+import com.vietphat.newswave.dto.user.UserRegistrationDTO;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

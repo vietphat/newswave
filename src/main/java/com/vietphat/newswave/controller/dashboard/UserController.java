@@ -1,6 +1,8 @@
 package com.vietphat.newswave.controller.dashboard;
 
-import com.vietphat.newswave.dto.UserDTO;
+import com.vietphat.newswave.dto.user.ResetPasswordDTO;
+import com.vietphat.newswave.dto.user.UserDTO;
+import com.vietphat.newswave.entity.UserEntity;
 import com.vietphat.newswave.enums.UserStatus;
 import com.vietphat.newswave.service.RoleService;
 import com.vietphat.newswave.service.UserService;
@@ -61,7 +63,6 @@ public class UserController {
     public String createForm(Model model) {
 
         model.addAttribute("model", new UserDTO());
-        model.addAttribute("roles", roleService.findAll());
         return "views/dashboard/user/edit";
     }
 
@@ -72,7 +73,6 @@ public class UserController {
                          RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("roles", roleService.findAll());
             return "views/dashboard/user/edit";
         }
 
@@ -80,9 +80,9 @@ public class UserController {
         UserDTO createdUserDTO = userService.save(userDTO);
 
         if (createdUserDTO == null) {
-            redirectAttributes.addFlashAttribute("alert", "danger");
-            redirectAttributes.addFlashAttribute("message", "Đã xảy ra lỗi máy chủ");
-            return "redirect:/quan-tri/nguoi-dung/danh-sach";
+            model.addAttribute("alert", "danger");
+            model.addAttribute("message", "Đã xảy ra lỗi máy chủ");
+            return "views/dashboard/user/edit";
         }
 
         redirectAttributes.addFlashAttribute("alert", "success");
@@ -90,14 +90,57 @@ public class UserController {
         return "redirect:/quan-tri/nguoi-dung/danh-sach?page=" + createdUserDTO.getCurrentPage() + "&size=5";
     }
 
-    @GetMapping("/chinh-sua/{id}")
+    @GetMapping({"/chinh-sua/{id}", "/doi-mat-khau/{id}"})
     public String editForm(@PathVariable("id") Long id, Model model) {
 
         UserDTO userDTO = userService.findUserWithRolesById(id);
 
         model.addAttribute("model", userDTO);
-        model.addAttribute("roles", roleService.findAll());
-        model.addAttribute("userStatus", UserStatus.values());
+        model.addAttribute("resetPasswordDTO", new ResetPasswordDTO());
+        return "views/dashboard/user/edit";
+    }
+
+    @PostMapping("/chinh-sua/{id}")
+    public String edit(@PathVariable("id") Long id,
+                       @Valid @ModelAttribute("model") UserDTO userDTO,
+                       BindingResult bindingResult,
+                       Model model) {
+
+        if (bindingResult.hasErrors() && !bindingResult.hasFieldErrors("password")) {
+            return "views/dashboard/user/edit";
+        }
+
+        UserDTO updatedUserDTO = userService.update(userDTO);
+
+        if (updatedUserDTO == null) {
+            model.addAttribute("alert", "danger");
+            model.addAttribute("message", "Đã xảy ra lỗi máy chủ");
+            return "views/dashboard/user/edit";
+        }
+
+        model.addAttribute("alert", "success");
+        model.addAttribute("message", "Cập nhật người dùng thành công");
+        model.addAttribute("model", updatedUserDTO);
+        return "views/dashboard/user/edit";
+    }
+
+    @PostMapping("/doi-mat-khau/{id}")
+    public String changePassword(@PathVariable("id") Long id,
+                                 @Valid @ModelAttribute("resetPasswordDTO") ResetPasswordDTO resetPasswordDTO,
+                                 BindingResult bindingResult,
+                                 Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("modalIsShown", true);
+            model.addAttribute("model", userService.findUserWithRolesById(id));
+            return "views/dashboard/user/edit";
+        }
+
+        UserDTO userDTO = userService.resetPassword(resetPasswordDTO);
+
+        model.addAttribute("alert", "success");
+        model.addAttribute("message", "Cập nhật mật khẩu thành công");
+        model.addAttribute("model", userDTO);
         return "views/dashboard/user/edit";
     }
 

@@ -1,5 +1,7 @@
-package com.vietphat.newswave.dto;
+package com.vietphat.newswave.dto.user;
 
+import com.vietphat.newswave.dto.BaseDTO;
+import com.vietphat.newswave.dto.RoleDTO;
 import com.vietphat.newswave.enums.UserRole;
 import com.vietphat.newswave.enums.UserStatus;
 import com.vietphat.newswave.service.UserService;
@@ -9,6 +11,7 @@ import jakarta.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserDTO extends BaseDTO<UserDTO> {
 
@@ -159,11 +162,23 @@ public class UserDTO extends BaseDTO<UserDTO> {
 
     public boolean containsRole(UserRole userRole) {
 
-        for (RoleDTO roleDTO : roles) {
-            return roleDTO.getCode().equals(userRole);
+        boolean result = false;
+        for (String roleCode : roleCodes) {
+            result = roleCode.equals(userRole.name());
+            if (result) {
+                break;
+            }
         }
 
-        return false;
+        return result;
+    }
+
+    public void mapRolesToRoleCodes() {
+        if (roles.isEmpty()) {
+            return;
+        }
+
+        roleCodes = roles.stream().map(roleDTO -> roleDTO.getCode().name()).collect(Collectors.toList());
     }
 
 }

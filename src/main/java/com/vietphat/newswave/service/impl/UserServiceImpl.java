@@ -1,9 +1,9 @@
 package com.vietphat.newswave.service.impl;
 
-import com.vietphat.newswave.dto.ResetPasswordDTO;
 import com.vietphat.newswave.dto.RoleDTO;
-import com.vietphat.newswave.dto.UserDTO;
-import com.vietphat.newswave.dto.UserRegistrationDTO;
+import com.vietphat.newswave.dto.user.ResetPasswordDTO;
+import com.vietphat.newswave.dto.user.UserDTO;
+import com.vietphat.newswave.dto.user.UserRegistrationDTO;
 import com.vietphat.newswave.entity.RoleEntity;
 import com.vietphat.newswave.entity.UserEntity;
 import com.vietphat.newswave.enums.UserRole;
@@ -16,13 +16,11 @@ import org.modelmapper.internal.util.Assert;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -49,7 +47,16 @@ public class UserServiceImpl implements UserService {
 
         UserEntity user = userRepository.findUserWithRolesById(id);
 
-        return (user == null) ? null : modelMapper.map(user, UserDTO.class);
+        if (user == null) {
+            return null;
+        }
+
+        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+
+        // map roles -> roleCodes
+        userDTO.mapRolesToRoleCodes();
+
+        return userDTO;
     }
 
     @Override
@@ -96,11 +103,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserEntity resetPassword(UserEntity user, ResetPasswordDTO resetPasswordDTO) {
+    public UserDTO resetPassword(ResetPasswordDTO resetPasswordDTO) {
+
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        UserEntity user = userRepository.findById(resetPasswordDTO.getId()).orElse(null);
+
         user.setPassword(passwordEncoder.encode(resetPasswordDTO.getPassword()));
 
-        return userRepository.save(user);
+        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+
+        userDTO.mapRolesToRoleCodes();
+
+        return userDTO;
     }
 
     @Override
@@ -175,9 +190,9 @@ public class UserServiceImpl implements UserService {
         UserEntity createdUser = userRepository.save(user);
 
         if (user != null) {
-            // calculate the last page (including new user)
             UserDTO createdUserDTO = modelMapper.map(createdUser, UserDTO.class);
 
+            // calculate the last page (including new user)
             int lastPage = (int) Math.ceil((double) userRepository.count() / 5);
             createdUserDTO.setCurrentPage(lastPage);
 
@@ -185,6 +200,37 @@ public class UserServiceImpl implements UserService {
         }
 
         return null;
+    }
+
+    @Override
+    @Transactional
+    public UserDTO update(UserDTO userDTO) {
+
+        UserEntity user = userRepository.findById(userDTO.getId()).orElse(null);
+
+        // phục hồi trường password
+        userDTO.setPassword(user.getPassword());
+
+        // copy các thuộc tính đã thay đổi qua user
+        BeanUtils.copyProperties(userDTO, user);
+
+        // chuyển roleCodes thành role và copy qua user entity
+        List<RoleEntity> roles = userDTO.getRoleCodes().stream()
+                .map(roleCode -> roleRepository.findByCodeString(roleCode))
+                .collect(Collectors.toList());
+
+        user.setRoles(roles);
+
+        // lưu thay đổi
+        UserEntity updatedUser = userRepository.save(user);
+
+        // trả về dto
+        UserDTO updatedUserDTO = modelMapper.map(updatedUser, UserDTO.class);
+
+        // map roles -> roleCodes
+        updatedUserDTO.mapRolesToRoleCodes();
+
+        return updatedUserDTO;
     }
 
     @Override

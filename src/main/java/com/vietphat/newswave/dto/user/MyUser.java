@@ -1,4 +1,4 @@
-package com.vietphat.newswave.dto;
+package com.vietphat.newswave.dto.user;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;

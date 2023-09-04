@@ -1,6 +1,6 @@
 package com.vietphat.newswave.utils;
 
-import com.vietphat.newswave.dto.MyUser;
+import com.vietphat.newswave.dto.user.MyUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
