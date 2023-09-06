@@ -31,7 +31,19 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     UserEntity findUserWithRolesById(@Param("userId") Long id);
 
     // Tìm kiếm user theo tên đăng nhập hoặc tên đầy đủ và phân trang
-    @Query("SELECT u FROM UserEntity u WHERE LOWER(u.username) LIKE %:search% OR LOWER(u.fullName) LIKE %:search%")
-    Page<UserEntity> searchUsersWithPagination(@Param("search") String search, Pageable pageable);
+    @Query(
+            value = "SELECT u.* FROM user u " +
+                    "JOIN user_role ur ON u.id = ur.user_id " +
+                    "JOIN role r ON r.id = ur.role_id " +
+                    "WHERE :roleCode IS NULL OR r.code = :roleCode " +
+                    "AND (:search IS NULL OR LOWER(u.username) LIKE %:search% OR LOWER(u.full_name) LIKE %:search%)"
+            , nativeQuery = true,
+            countQuery = "SELECT count(*) FROM user u " +
+                    "JOIN user_role ur ON u.id = ur.user_id " +
+                    "JOIN role r ON r.id = ur.role_id " +
+                    "WHERE :roleCode IS NULL OR r.code = :roleCode " +
+                    "AND (:search IS NULL OR LOWER(u.username) LIKE %:search% OR LOWER(u.full_name) LIKE %:search%)"
+    )
+    Page<UserEntity> searchUsersWithPagination(Pageable pageable, @Param("search") String search, @Param("roleCode") String roleCode);
 
 }

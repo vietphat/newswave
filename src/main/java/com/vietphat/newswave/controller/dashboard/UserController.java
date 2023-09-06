@@ -40,11 +40,12 @@ public class UserController {
     public String getList(Model model,
                           @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
                           @RequestParam(value = "size", required = false, defaultValue = "5") Integer size,
-                          @RequestParam(value = "search", required = false) String search) {
+                          @RequestParam(value = "search", required = false) String search,
+                          @RequestParam(value = "role", required = false) String roleCode) {
 
         Pageable pageable = PageRequest.of(page - 1, size);
 
-        UserDTO userDTO = userService.findAll(pageable, search);
+        UserDTO userDTO = userService.findAll(pageable, search, roleCode);
 
         model.addAttribute("model", userDTO);
         return "views/dashboard/user/list";

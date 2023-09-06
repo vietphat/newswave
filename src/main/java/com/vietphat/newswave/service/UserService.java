@@ -29,7 +29,7 @@ public interface UserService extends UniqueFieldService {
 
     UserEntity findByIdAndStatus(Long id, UserStatus status);
 
-    UserDTO findAll(Pageable pageable, String search);
+    UserDTO findAll(Pageable pageable, String search, String roleCode);
 
     Long getTotalItems();
 

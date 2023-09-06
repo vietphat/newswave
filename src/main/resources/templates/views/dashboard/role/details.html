@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/dashboard}"
+>
+
+<head>
+    <title>Chi tiết quyền</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">Chi tiết quyền</h1>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <p class="mb-0" th:text="${model.name}"/>
+            <a class="mb-0" th:href="@{/quan-tri/quyen/danh-sach}">
+                Quay lại danh sách
+            </a>
+        </div>
+
+        <div class="card-body">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td th:text="${model.id}"></td>
+                </tr>
+                <tr>
+                    <th>Tên quyền</th>
+                    <td th:text="${model.name}"></td>
+                </tr>
+                <tr>
+                    <th>Mã quyền</th>
+                    <td th:text="${model.code}"></td>
+                </tr>
+                <tr>
+                    <th>Danh sách người dùng</th>
+                    <td>
+                        <a th:href="@{/quan-tri/nguoi-dung/danh-sach(role=${model.code}, page=1, size=5)}">
+                            Xem danh sách người dùng thuộc quyền này
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Tạo bởi</th>
+                    <td th:text="${model.createdBy}"></td>
+                </tr>
+                <tr>
+                    <th>Ngày tạo</th>
+                    <td th:text="${#dates.format(model.createdDate, 'dd-MM-yyyy hh:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>Lần chỉnh sửa cuối cùng bởi</th>
+                    <td th:text="${model.modifiedBy}"></td>
+                </tr>
+                <tr>
+                    <th>Lần chỉnh sửa cuối cùng</th>
+                    <td th:text="${#dates.format(model.modifiedDate, 'dd-MM-yyyy hh:mm:ss')}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+
+</div>
+</body>
+</html>

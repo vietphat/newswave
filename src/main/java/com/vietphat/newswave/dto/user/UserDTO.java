@@ -49,6 +49,8 @@ public class UserDTO extends BaseDTO<UserDTO> {
 
     private List<RoleDTO> roles = new ArrayList<>();
 
+    private String roleCode;
+
 //    private List<CommentDTO> comments;
 //
 //    private List<PostDTO> posts;
@@ -158,6 +160,14 @@ public class UserDTO extends BaseDTO<UserDTO> {
 
     public void setRoleCodes(List<String> roleCodes) {
         this.roleCodes = roleCodes;
+    }
+
+    public String getRoleCode() {
+        return roleCode;
+    }
+
+    public void setRoleCode(String roleCode) {
+        this.roleCode = roleCode;
     }
 
     public boolean containsRole(UserRole userRole) {

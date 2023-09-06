@@ -46,6 +46,7 @@
                     <div class="input-group">
                         <input name="search" type="text" class="form-control bg-light small" placeholder="Tìm kiếm..."
                                aria-label="Search" aria-describedby="basic-addon2" th:value="${model.search}">
+                        <input name="role" type="hidden" th:value="${model.roleCode}" />
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="submit">
                                 <i class="fas fa-search fa-sm"></i>
@@ -107,6 +108,7 @@
         <input type="hidden" id="page" name="page"/>
         <input type="hidden" id="size" name="size"/>
         <input type="hidden" id="search" name="search"/>
+        <input type="hidden" id="role" name="role"/>
     </form>
 </div>
 
@@ -147,6 +149,7 @@
         const currentPage = /*[[${model.currentPage}]]*/;
         const totalPages = /*[[${model.totalPages}]]*/;
         const search = /*[[${model.search}]]*/;
+        const roleCode = /*[[${model.roleCode}]]*/;
         const size = 5;
 
         window.pagObj = $('#pagination').twbsPagination({
@@ -158,6 +161,7 @@
                     $('#page').val(page);
                     $('#size').val(size);
                     $('#search').val(search);
+                    $('#roleCode').val(roleCode);
                     $('#pageForm').submit();
                 }
             }
