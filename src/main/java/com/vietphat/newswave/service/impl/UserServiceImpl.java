@@ -102,6 +102,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void delete(String[] userIds) {
+
+        try {
+            for (String userId : userIds) {
+                UserEntity user = userRepository.findById(Long.parseLong(userId)).orElse(null);
+
+                if (user != null) {
+
+                    // delete all the comments
+                    user.setComments(null);
+
+                    // TODO: delete all the posts
+
+                    // delete all the user_role contains this user
+                    user.setRoles(null);
+
+                    // delete all the saved_post
+                    user.setSavedPosts(null);
+
+                    // finally, delete this user
+                    userRepository.delete(user);
+
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
+
+    @Override
     @Transactional
     public UserDTO resetPassword(ResetPasswordDTO resetPasswordDTO) {
 

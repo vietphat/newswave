@@ -144,6 +144,25 @@ public class UserController {
         return "views/dashboard/user/edit";
     }
 
+    @PostMapping("/xoa")
+    public String delete(@RequestParam(value = "selectedUserIds", required = false) String selectedUserIds,
+                         RedirectAttributes redirectAttributes) {
+
+        if (selectedUserIds == null) {
+            redirectAttributes.addFlashAttribute("alert", "danger");
+            redirectAttributes.addFlashAttribute("message", "Vui lòng chọn người dùng cần xóa.");
+            return "redirect:/quan-tri/nguoi-dung/danh-sach";
+        }
+
+        String[] userIds = selectedUserIds.split(",");
+
+        userService.delete(userIds);
+
+        redirectAttributes.addFlashAttribute("alert", "success");
+        redirectAttributes.addFlashAttribute("message", "Xóa người dùng thành công.");
+        return "redirect:/quan-tri/nguoi-dung/danh-sach";
+    }
+
     @InitBinder
     public void initBinder(WebDataBinder dataBinder) {
 

@@ -33,6 +33,13 @@
                 <span class="text">Thêm mới</span>
             </a>
 
+            <a id="deleteUsersBtn" class="btn btn-danger btn-icon-split d-none" data-toggle="modal" data-target="#deleteUsersModal">
+                <span class="icon text-white-50">
+                    <i class="fas fa-trash-alt"></i>
+                </span>
+                <span class="text">Xóa bỏ</span>
+            </a>
+
             <!-- Search -->
             <div class="col-4">
                 <form>
@@ -64,7 +71,12 @@
 
                     <tbody>
                     <tr th:each="item : ${model.listResult}">
-                        <td th:text="${item.id}"/>
+                        <td>
+                            <label>
+                                <input name="userId" type="checkbox" th:value="${item.id}">
+                                <span th:text="${item.id}"/>
+                            </label>
+                        </td>
                         <td th:text="${item.username}"/>
                         <td th:text="${item.fullName}"/>
                         <td th:text="${item.createdBy}">
@@ -76,9 +88,6 @@
                             </a>
                             <a th:href="@{/quan-tri/nguoi-dung/chinh-sua/{id}(id=${item.id})}" class="btn btn-info">
                                 <i class="fas fa-edit"></i>
-                            </a>
-                            <a th:href="@{/quan-tri/nguoi-dung/xoa/{id}(id=${item.id})}" class="btn btn-danger">
-                                <i class="fas fa-trash-alt"></i>
                             </a>
                         </td>
                     </tr>
@@ -101,8 +110,40 @@
     </form>
 </div>
 
-<script layout:fragment="scripts" type="text/javascript" th:inline="javascript">
+<div layout:fragment="bottom-content">
+    <!-- Delete Users Modal -->
+    <div class="modal fade" id="deleteUsersModal" tabindex="-1" role="dialog" aria-labelledby="deleteUsersModal"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Xóa người dùng?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="deleteUsersForm" th:action="@{/quan-tri/nguoi-dung/xoa}" method="post">
+                    <div class="modal-body">
+                        <p>Xóa người dùng sẽ dẫn đến việc <b>xóa tất cả các bài viết và bình luận liên quan của họ</b>.
+                            Bạn có đồng ý xóa các người dùng đã chọn hay không?
+                        </p>
+                        <div class="form-group">
+                            <input type="hidden" id="selectedUserIds" name="selectedUserIds"/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                        <button id="deleteBtn" type="button" class="btn btn-danger">Đồng ý</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script layout:fragment="bottom-script" type="text/javascript" th:inline="javascript">
     $(function () {
+        // xử lý phân trang
         const currentPage = /*[[${model.currentPage}]]*/;
         const totalPages = /*[[${model.totalPages}]]*/;
         const search = /*[[${model.search}]]*/;
@@ -123,7 +164,35 @@
         }).on('page', function (event, page) {
 
         });
+
+        // xử lý xóa
+        $('#deleteBtn').on('click', function(e) {
+            // get selected user ids
+            const selectedUserIds = [];
+            $('input[name="userId"]').map(function (index, item) {
+                if (item.checked) {
+                    selectedUserIds.push(item.value);
+                }
+            })
+
+            $('#selectedUserIds').val(selectedUserIds.toString());
+
+            // submit the form
+            $('#deleteUsersForm').submit();
+        });
+
+        // xử lý ẩn/hiện nút xóa
+        $('input[name="userId"]').map(function(index, item) {
+            $(item).on('click', function (e) {
+                if ($('input[name="userId"]:checked').length > 0) {
+                    $('#deleteUsersBtn').removeClass('d-none');
+                } else {
+                     $('#deleteUsersBtn').addClass('d-none');
+                }
+            })
+        })
     });
+
 </script>
 </body>
 </html>

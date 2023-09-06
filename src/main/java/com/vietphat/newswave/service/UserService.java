@@ -21,6 +21,8 @@ public interface UserService extends UniqueFieldService {
 
     void delete(UserEntity entity);
 
+    void delete(String[] userIds);
+
     UserDTO resetPassword(ResetPasswordDTO resetPasswordDTO);
 
     UserDTO findById(Long id);
