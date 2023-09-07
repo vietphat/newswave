@@ -1,10 +1,12 @@
 package com.vietphat.newswave.config;
 
 import com.vietphat.newswave.enums.UserRole;
+import com.vietphat.newswave.service.UserService;
 import com.vietphat.newswave.utils.SecurityUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -17,6 +19,9 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
+    @Autowired
+    private UserService userService;
+
     @Override
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
@@ -26,6 +31,9 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         if (response.isCommitted()) {
             System.out.println("Can not redirect");
         }
+
+        // lưu lần đăng nhập gần nhất
+        userService.saveLastLogin(SecurityUtils.getPrincipal().getId());
 
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }

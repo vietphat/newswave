@@ -37,4 +37,6 @@ public interface UserService extends UniqueFieldService {
 
     UserDTO update(UserDTO userDTO);
 
+    void saveLastLogin(Long id);
+
 }
