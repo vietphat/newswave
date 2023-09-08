@@ -80,3 +80,6 @@ INSERT INTO tag VALUES(0, 'Spring Framework', 'spring-framework', 'root', curren
 INSERT INTO tag VALUES(0, 'Spring Security', 'spring-security', 'root', current_timestamp(), 'root', current_timestamp());
 INSERT INTO tag VALUES(0, 'Spring WebSocket', 'spring-web-socket', 'root', current_timestamp(), 'root', current_timestamp());
 
+-- post
+INSERT INTO post VALUES(0, 'Ba thông điệp lớn của Việt Nam tại Hội nghị Cấp cao ASEAN 43', 'ba-thong-diep-lon-cua-viet-nam-tai-hoi-nghi-cap-cao-asean-43', 'default.jpg', 'Mô tả ngắn', '<p>Nội dung</p>', 0, 1, current_timestamp(), 1, 1, 'root', current_timestamp(), 'root', current_timestamp());
+

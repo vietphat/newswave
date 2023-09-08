@@ -41,21 +41,22 @@ public class PostEntity extends BaseEntity {
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private UserEntity postedUser;
+
     @ManyToMany
     @JoinTable(name = "post_tag",
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private List<TagEntity> tags = new ArrayList<>();
-    ;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<CommentEntity> comments = new ArrayList<>();
-    ;
 
     @OneToMany(mappedBy = "post")
     private List<SavedPostEntity> savingUsers = new ArrayList<>();
-    ;
 
     public PostEntity() {
     }
@@ -164,5 +165,13 @@ public class PostEntity extends BaseEntity {
 
     public void setSavingUsers(List<SavedPostEntity> savingUsers) {
         this.savingUsers = savingUsers;
+    }
+
+    public UserEntity getPostedUser() {
+        return postedUser;
+    }
+
+    public void setPostedUser(UserEntity postedUser) {
+        this.postedUser = postedUser;
     }
 }

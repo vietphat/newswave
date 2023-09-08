@@ -55,6 +55,9 @@ public class UserEntity extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private List<SavedPostEntity> savedPosts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "postedUser")
+    private List<PostEntity> postedPosts;
+
     public UserEntity() {
     }
 
@@ -164,6 +167,14 @@ public class UserEntity extends BaseEntity {
 
     public void setComments(List<CommentEntity> comments) {
         this.comments = comments;
+    }
+
+    public List<PostEntity> getPostedPosts() {
+        return postedPosts;
+    }
+
+    public void setPostedPosts(List<PostEntity> postedPosts) {
+        this.postedPosts = postedPosts;
     }
 
     public void addRole(RoleEntity role) {

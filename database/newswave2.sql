@@ -449,3 +449,12 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+-- sửa bảng post để người dùng cũng có thể gửi yêu cầu đăng bài
+-- user 1 - n post
+ALTER TABLE `post`
+    ADD COLUMN `user_id` bigint(20) DEFAULT NULL AFTER category_id;
+
+ALTER TABLE `post`
+  ADD CONSTRAINT `user_add_post` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
