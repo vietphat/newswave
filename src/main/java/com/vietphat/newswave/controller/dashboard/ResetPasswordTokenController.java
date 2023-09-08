@@ -1,6 +1,5 @@
 package com.vietphat.newswave.controller.dashboard;
 
-import com.vietphat.newswave.dto.RoleDTO;
 import com.vietphat.newswave.dto.resetpasswordtoken.ResetPasswordTokenDTO;
 import com.vietphat.newswave.service.ResetPasswordTokenService;
 import org.springframework.beans.factory.annotation.Autowired;

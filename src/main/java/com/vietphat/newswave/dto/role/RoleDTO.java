@@ -1,5 +1,6 @@
-package com.vietphat.newswave.dto;
+package com.vietphat.newswave.dto.role;
 
+import com.vietphat.newswave.dto.BaseDTO;
 import com.vietphat.newswave.enums.UserRole;
 
 import java.util.Date;
@@ -38,10 +39,5 @@ public class RoleDTO extends BaseDTO<RoleDTO> {
     public boolean compareTo(UserRole userRole) {
 
         return this.code.equals(userRole);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
     }
 }

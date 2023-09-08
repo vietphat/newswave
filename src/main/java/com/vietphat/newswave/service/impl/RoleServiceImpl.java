@@ -1,9 +1,7 @@
 package com.vietphat.newswave.service.impl;
 
-import com.vietphat.newswave.dto.RoleDTO;
-import com.vietphat.newswave.dto.user.UserDTO;
+import com.vietphat.newswave.dto.role.RoleDTO;
 import com.vietphat.newswave.entity.RoleEntity;
-import com.vietphat.newswave.entity.UserEntity;
 import com.vietphat.newswave.repository.RoleRepository;
 import com.vietphat.newswave.service.RoleService;
 import org.modelmapper.ModelMapper;

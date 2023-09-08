@@ -1,12 +1,10 @@
 package com.vietphat.newswave.controller.dashboard;
 
-import com.vietphat.newswave.dto.RoleDTO;
-import com.vietphat.newswave.dto.user.UserDTO;
+import com.vietphat.newswave.dto.role.RoleDTO;
 import com.vietphat.newswave.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

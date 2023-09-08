@@ -1,9 +1,7 @@
 package com.vietphat.newswave.service.impl;
 
-import com.vietphat.newswave.dto.RoleDTO;
 import com.vietphat.newswave.dto.resetpasswordtoken.ResetPasswordTokenDTO;
 import com.vietphat.newswave.entity.ResetPasswordTokenEntity;
-import com.vietphat.newswave.entity.RoleEntity;
 import com.vietphat.newswave.repository.ResetPasswordTokenRepository;
 import com.vietphat.newswave.service.ResetPasswordTokenService;
 import org.modelmapper.ModelMapper;

@@ -1,7 +1,6 @@
 package com.vietphat.newswave.service;
 
-import com.vietphat.newswave.dto.RoleDTO;
-import com.vietphat.newswave.entity.RoleEntity;
+import com.vietphat.newswave.dto.role.RoleDTO;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

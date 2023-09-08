@@ -45,4 +45,11 @@ public class CategoryEntity extends BaseEntity {
         this.code = code;
     }
 
+    public List<PostEntity> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<PostEntity> posts) {
+        this.posts = posts;
+    }
 }

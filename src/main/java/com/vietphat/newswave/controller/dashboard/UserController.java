@@ -122,6 +122,7 @@ public class UserController {
         model.addAttribute("alert", "success");
         model.addAttribute("message", "Cập nhật người dùng thành công");
         model.addAttribute("model", updatedUserDTO);
+        model.addAttribute("resetPasswordDTO", new ResetPasswordDTO());
         return "views/dashboard/user/edit";
     }
 
@@ -168,11 +169,10 @@ public class UserController {
     public void initBinder(WebDataBinder dataBinder) {
 
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+        dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setLenient(false);
-
-        dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
         dataBinder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 }

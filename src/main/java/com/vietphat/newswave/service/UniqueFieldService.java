@@ -10,5 +10,5 @@ public interface UniqueFieldService {
      * @return True if the value exists for the field; false otherwise
      * @throws UnsupportedOperationException
      */
-    boolean fieldValueExists(Object value, String fieldName) throws UnsupportedOperationException;
+    boolean fieldValueExists(Object value, String fieldName, String id) throws UnsupportedOperationException;
 }

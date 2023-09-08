@@ -1,6 +1,5 @@
 package com.vietphat.newswave.service.impl;
 
-import com.vietphat.newswave.dto.RoleDTO;
 import com.vietphat.newswave.dto.user.ResetPasswordDTO;
 import com.vietphat.newswave.dto.user.UserDTO;
 import com.vietphat.newswave.dto.user.UserRegistrationDTO;
@@ -277,23 +276,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean fieldValueExists(Object value, String fieldName) throws UnsupportedOperationException {
+    public boolean fieldValueExists(Object value, String fieldName, String id) throws UnsupportedOperationException {
+
         Assert.notNull(fieldName);
 
         if (!fieldName.equals("email") && !fieldName.equals("username") && !fieldName.equals("phoneNumber")) {
-            throw new UnsupportedOperationException("Trường này không được hỗ trợ xác thực là duy nhất");
+            throw new UnsupportedOperationException("Trường này không được hỗ trợ xác thực duy nhất");
         }
 
-        if (value == null) {
-            return false;
+        UserEntity user = null;
+        if (id != null && !id.isEmpty()) {
+            user = userRepository.findById(Long.parseLong(id)).orElse(null);
         }
 
         switch (fieldName) {
             case "email":
+                if (user != null && user.getEmail().equals(value.toString())) {
+                    return true;
+                }
                 return userRepository.existsByEmail(value.toString());
             case "username":
+                if (user != null && user.getUsername().equals(value.toString())) {
+                    return true;
+                }
                 return userRepository.existsByUsername(value.toString());
             case "phoneNumber":
+                if (user != null && user.getPhoneNumber().equals(value.toString())) {
+                    return true;
+                }
                 return userRepository.existsByPhoneNumber(value.toString());
             default:
                 return false;
