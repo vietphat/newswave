@@ -1,20 +1,20 @@
-package com.vietphat.newswave.dto.category;
+package com.vietphat.newswave.dto.tag;
 
 import com.vietphat.newswave.dto.BaseDTO;
-import com.vietphat.newswave.service.CategoryService;
+import com.vietphat.newswave.service.TagService;
 import com.vietphat.newswave.validation.uniquefield.UniqueField;
 import jakarta.validation.constraints.NotNull;
 
-public class CategoryDTO extends BaseDTO<CategoryDTO> {
+public class TagDTO extends BaseDTO<TagDTO> {
 
-    @NotNull(message = "Tên danh mục là bắt buộc")
+    @NotNull(message = "Tên thẻ là bắt buộc")
     private String name;
 
-    @NotNull(message = "Mã danh mục là bắt buộc")
-    @UniqueField(fieldName = "code", message = "Mã danh mục đã tồn tại", service = CategoryService.class)
+    @NotNull(message = "Mã thẻ là bắt buộc")
+    @UniqueField(fieldName = "code", message = "Mã thẻ đã tồn tại", service = TagService.class)
     private String code;
 
-    public CategoryDTO() {
+    public TagDTO() {
     }
 
     public String getName() {
@@ -32,4 +32,5 @@ public class CategoryDTO extends BaseDTO<CategoryDTO> {
     public void setCode(String code) {
         this.code = code;
     }
+
 }

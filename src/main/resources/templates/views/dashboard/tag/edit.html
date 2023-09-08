@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/dashboard}"
+>
+
+<head>
+    <title th:text="${model.id == null ? 'Thêm mới thẻ bài viết' : 'Chỉnh sửa thẻ bài viết'}"/>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800"
+        th:text="${model.id == null ? 'Thêm mới thẻ bài viết' : 'Chỉnh sửa thẻ bài viết'}"/>
+
+    <div class="card">
+        <!--      messages      -->
+        <div th:if="${message != null}" th:class="|alert alert-${alert} alert-dismissible fade show text-center|" role="alert">
+            <span th:class="|text-${alert} mb-0|" th:text="${message}"/>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="card-header d-flex justify-content-between">
+            <p class="mb-0">Các trường có đánh dấu <span class="text-danger">(*)</span> là các trường bắt buộc.</p>
+            <a class="mb-0" th:href="@{/quan-tri/the/danh-sach}">
+                Quay lại danh sách
+            </a>
+        </div>
+        <div class="card-body">
+            <form th:object="${model}" method="post" class="row">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="form-group col-6">
+                    <label th:for="name">Tên danh mục <span class="text-danger">(*)</span></label>
+                    <input th:field="*{name}" type="text" class="form-control" placeholder="Tên danh mục..."/>
+                    <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"/>
+                </div>
+
+                <div class="form-group col-6">
+                    <label th:for="code">Mã danh mục <span class="text-danger">(*)</span></label>
+                    <input th:field="*{code}" type="text" class="form-control" placeholder="Mã danh mục..."/>
+                    <span class="text-danger" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"/>
+                </div>
+
+                <div class="form-group col-12">
+                    <button th:class="|btn btn-${model.id == null ? 'success' : 'info'}|" type="submit"
+                            th:text="${model.id == null ? 'Thêm mới' : 'Lưu thay đổi'}"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

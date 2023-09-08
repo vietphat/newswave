@@ -2,7 +2,6 @@ package com.vietphat.newswave.service.impl;
 
 import com.vietphat.newswave.dto.category.CategoryDTO;
 import com.vietphat.newswave.entity.CategoryEntity;
-import com.vietphat.newswave.entity.UserEntity;
 import com.vietphat.newswave.repository.CategoryRepository;
 import com.vietphat.newswave.service.CategoryService;
 import org.modelmapper.ModelMapper;
@@ -14,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Field;
 import java.util.stream.Collectors;
 
 @Service
@@ -145,6 +143,5 @@ public class CategoryServiceImpl implements CategoryService {
             default:
                 return false;
         }
-
     }
 }
