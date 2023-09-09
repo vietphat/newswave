@@ -11,6 +11,9 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> 
 
     boolean existsByCode(String code);
 
+    @Query(value = "SELECT * FROM category c WHERE c.code = :code", nativeQuery = true)
+    CategoryEntity findByCode(@Param("code") String code);
+
     @Query("SELECT c FROM CategoryEntity c " +
             "WHERE :search IS NULL OR LOWER(c.name) LIKE %:search% OR LOWER(c.code) LIKE %:search%")
     Page<CategoryEntity> searchCategoriesWithPagination(Pageable pageable, @Param("search") String search);

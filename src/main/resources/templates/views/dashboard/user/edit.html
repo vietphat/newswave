@@ -129,7 +129,7 @@
     </div>
 </div>
 
-<div layout:fragment="bottom-content">
+<div th:if="${model.id != null}" layout:fragment="bottom-content">
     <!-- Change Password Modal -->
     <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModal"
          aria-hidden="true">

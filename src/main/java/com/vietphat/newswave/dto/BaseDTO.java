@@ -5,29 +5,29 @@ import java.util.List;
 
 public abstract class BaseDTO<T> {
 
-    private Long id;
+    protected Long id;
 
-    private String createdBy;
+    protected String createdBy;
 
-    private Date createdDate;
+    protected Date createdDate;
 
-    private String modifiedBy;
+    protected String modifiedBy;
 
-    private Date modifiedDate;
+    protected Date modifiedDate;
 
-    private Integer currentPage = 1;
+    protected Integer currentPage = 1;
 
-    private Integer size = 5;
+    protected Integer size = 5;
 
-    private int totalPages;
+    protected int totalPages;
 
-    private Long totalItems;
+    protected Long totalItems;
 
-    private Integer visiblePageItems = 5;
+    protected Integer visiblePageItems = 5;
 
-    private List<T> listResult;
+    protected List<T> listResult;
 
-    private String search;
+    protected String search;
 
     public BaseDTO() {
     }

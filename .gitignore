@@ -36,3 +36,4 @@ build/
 /mvnw.cmd
 /.mvn/
 /logging/
+/src/main/resources/static/images/post-thumbnails/

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/dashboard}"
+>
+
+<head>
+    <title th:text="${model.id == null ? 'Thêm mới bài viết' : 'Chỉnh sửa bài viết'}"/>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800"
+        th:text="${model.id == null ? 'Thêm mới bài viết' : 'Chỉnh sửa bài viết'}"/>
+
+    <div class="card">
+        <!--      messages      -->
+        <div th:if="${message != null}" th:class="|alert alert-${alert} alert-dismissible fade show text-center|"
+             role="alert">
+            <span th:class="|text-${alert} mb-0|" th:text="${message}"/>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="card-header d-flex justify-content-between">
+            <p class="mb-0">Các trường có đánh dấu <span class="text-danger">(*)</span> là các trường bắt buộc.</p>
+            <a class="mb-0" th:href="@{/quan-tri/bai-viet/danh-sach}">
+                Quay lại danh sách
+            </a>
+        </div>
+
+        <div class="card-body">
+            <form th:object="${model}" method="post" class="row" enctype="multipart/form-data" >
+                <input type="hidden" th:field="*{id}"/>
+
+                <div class="form-group col-6">
+                    <label th:for="title">Tiêu đề <span class="text-danger">(*)</span></label>
+                    <input th:field="*{title}" type="text" class="form-control" placeholder="Tiêu đề..."/>
+                    <span class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"/>
+                </div>
+
+                <div class="form-group col-6">
+                    <label th:for="slug">Slug <span class="text-danger">(*)</span></label>
+                    <input th:field="*{slug}" type="text" class="form-control" placeholder="Slug..."/>
+                    <span class="text-danger" th:if="${#fields.hasErrors('slug')}" th:errors="*{slug}"/>
+                </div>
+
+                <div class="form-group col-12">
+                    <label th:for="thumbnailFile">
+                        Ảnh bìa
+                    </label>
+
+                    <div class="custom-file">
+                        <input id="thumbnailFile"
+                               name="thumbnailFile"
+                               type="file"
+                               class="custom-file-input"
+                               accept="image/jpeg, image/png"
+                        >
+                        <label class="custom-file-label" for="thumbnailFile">Chọn hình</label>
+                    </div>
+
+                    <div class="my-2 d-flex justify-content-center">
+                        <img class="img-fluid"
+                             style="max-width: 300px;"
+                             id="thumbnailPreview"
+                             alt="Ảnh bìa"
+                             th:src="${model.getThumbnailPath()}"
+                        />
+                    </div>
+                </div>
+
+
+                <div class="form-group col-12">
+                    <label th:for="shortDescription">Mô tả ngắn <span class="text-danger">(*)</span></label>
+                    <textarea th:field="*{shortDescription}" rows="3" class="form-control"
+                              placeholder="Mô tả ngắn ..."/>
+                    <span class="text-danger" th:if="${#fields.hasErrors('shortDescription')}"
+                          th:errors="*{shortDescription}"/>
+                </div>
+
+                <div class="form-group col-12">
+                    <label th:for="content">Nội dung <span class="text-danger">(*)</span></label>
+                    <textarea th:field="*{content}" rows="3" class="form-control" placeholder="Nội dung ..."/>
+                    <span class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"/>
+                </div>
+
+                <div th:if="${model.id == null}" class="form-group col-6">
+                    <label th:for="views">Lượt xem</label>
+                    <input id="views" name="views" value="0" type="text" class="form-control-plaintext" readonly/>
+                    <span class="text-danger" th:if="${#fields.hasErrors('views')}" th:errors="*{views}"/>
+                </div>
+
+                <div th:if="${model.id != null}" class="form-group col-6">
+                    <label th:for="views">Lượt xem</label>
+                    <input th:field="*{views}" type="text" class="form-control"/>
+                    <span class="text-danger" th:if="${#fields.hasErrors('views')}" th:errors="*{views}"/>
+                </div>
+
+                <div class="form-group col-6">
+                    <label th:for="published">Trạng thái <span class="text-danger">(*)</span></label>
+                    <select th:field="*{published}" class="custom-select">
+                        <option value="">--Chọn trạng thái bài viết--</option>
+                        <option th:each="status : ${T(com.vietphat.newswave.enums.PostStatus).values()}"
+                                th:value="${status}"
+                                th:text="${#strings.capitalize(status.toString())}"
+                                th:selected="${model.published != null and model.published.equals(status)}"
+                        />
+                    </select>
+                    <span class="text-danger" th:if="${#fields.hasErrors('published')}" th:errors="*{published}"/>
+                </div>
+
+                <div class="form-group col-6">
+                    <label th:for="publishedDate">Ngày đăng <span class="text-danger">(*)</span></label>
+                    <input th:field="*{publishedDate}" type="date" class="form-control"/>
+                    <span class="text-danger" th:if="${#fields.hasErrors('publishedDate')}"
+                          th:errors="*{publishedDate}"/>
+                </div>
+
+                <div class="form-group col-6">
+                    <label th:for="categoryCode">Danh mục bài viết <span class="text-danger">(*)</span> </label>
+                    <select th:field="*{categoryCode}" class="custom-select">
+                        <option value="">--Chọn danh mục bài viết--</option>
+                        <option th:each="category : ${categories}"
+                                th:text="${category.name}"
+                                th:value="${category.code}"
+                                th:selected="${model.category != null && category.code.equals(model.category.code)}"
+                        />
+                    </select>
+                    <span class="text-danger" th:if="${#fields.hasErrors('categoryCode')}" th:errors="*{categoryCode}"/>
+                </div>
+
+                <input type="hidden" name="postedUserId" id="postedUserId" th:value="${#authentication.principal.id}"/>
+
+                <div class="form-group col-12">
+                    <button th:class="|btn btn-${model.id == null ? 'success' : 'info'}|" type="submit"
+                            th:text="${model.id == null ? 'Thêm mới' : 'Lưu thay đổi'}"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script layout:fragment="bottom-script" type="text/javascript" th:inline="javascript">
+    $(function () {
+        $('#thumbnailFile').on('change', function(e) {
+            showPreviewThumbnail(this);
+        });
+
+
+
+    });
+
+    function showPreviewThumbnail(fileInput) {
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            $('#thumbnailPreview').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(file);
+    }
+
+</script>
+
+</body>
+</html>

@@ -21,10 +21,10 @@ public class PostEntity extends BaseEntity {
     @Column(name = "thumbnail")
     private String thumbnail;
 
-    @Column(name = "short_description", columnDefinition = "TEXT")
+    @Column(name = "short_description", columnDefinition = "TEXT", nullable = false)
     private String shortDescription;
 
-    @Column(name = "content", columnDefinition = "TEXT")
+    @Column(name = "content", columnDefinition = "TEXT", nullable = false)
     private String content;
 
     @Enumerated(EnumType.ORDINAL)
@@ -38,11 +38,11 @@ public class PostEntity extends BaseEntity {
     private Integer views;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private CategoryEntity category;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity postedUser;
 
     @ManyToMany
