@@ -1,6 +1,5 @@
 package com.vietphat.newswave.service;
 
-import com.vietphat.newswave.dto.category.CategoryDTO;
 import com.vietphat.newswave.dto.tag.TagDTO;
 import org.springframework.data.domain.Pageable;
 

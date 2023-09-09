@@ -1,7 +1,6 @@
 package com.vietphat.newswave.controller.dashboard;
 
 import com.vietphat.newswave.constant.SystemConstant;
-import com.vietphat.newswave.dto.category.CategoryDTO;
 import com.vietphat.newswave.dto.post.PostDTO;
 import com.vietphat.newswave.service.CategoryService;
 import com.vietphat.newswave.service.PostService;

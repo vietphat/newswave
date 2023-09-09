@@ -1,6 +1,5 @@
 package com.vietphat.newswave.service.impl;
 
-import com.vietphat.newswave.dto.category.CategoryDTO;
 import com.vietphat.newswave.dto.post.PostDTO;
 import com.vietphat.newswave.entity.CategoryEntity;
 import com.vietphat.newswave.entity.PostEntity;

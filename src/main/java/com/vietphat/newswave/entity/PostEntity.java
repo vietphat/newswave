@@ -1,6 +1,5 @@
 package com.vietphat.newswave.entity;
 
-import com.vietphat.newswave.entity.key.SavedPostId;
 import com.vietphat.newswave.enums.PostStatus;
 import jakarta.persistence.*;
 

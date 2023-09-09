@@ -3,7 +3,10 @@ package com.vietphat.newswave.dto.user;
 import com.vietphat.newswave.service.UserService;
 import com.vietphat.newswave.validation.passwordmatches.PasswordMatches;
 import com.vietphat.newswave.validation.uniquefield.UniqueField;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @PasswordMatches
 public class UserRegistrationDTO {

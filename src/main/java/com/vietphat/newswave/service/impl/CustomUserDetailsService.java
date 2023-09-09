@@ -1,7 +1,7 @@
 package com.vietphat.newswave.service.impl;
 
-import com.vietphat.newswave.dto.user.MyUser;
 import com.vietphat.newswave.dto.role.RoleDTO;
+import com.vietphat.newswave.dto.user.MyUser;
 import com.vietphat.newswave.dto.user.UserDTO;
 import com.vietphat.newswave.enums.UserStatus;
 import com.vietphat.newswave.service.UserService;

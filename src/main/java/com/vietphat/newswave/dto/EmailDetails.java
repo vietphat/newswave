@@ -1,7 +1,5 @@
 package com.vietphat.newswave.dto;
 
-import org.springframework.web.bind.annotation.RestController;
-
 public class EmailDetails {
 
     private String recipient;

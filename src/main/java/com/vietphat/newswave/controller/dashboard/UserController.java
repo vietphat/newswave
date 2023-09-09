@@ -2,8 +2,6 @@ package com.vietphat.newswave.controller.dashboard;
 
 import com.vietphat.newswave.dto.user.ResetPasswordDTO;
 import com.vietphat.newswave.dto.user.UserDTO;
-import com.vietphat.newswave.entity.UserEntity;
-import com.vietphat.newswave.enums.UserStatus;
 import com.vietphat.newswave.service.RoleService;
 import com.vietphat.newswave.service.UserService;
 import jakarta.validation.Valid;

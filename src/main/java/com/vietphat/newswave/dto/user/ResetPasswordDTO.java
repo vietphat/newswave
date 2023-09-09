@@ -2,7 +2,6 @@ package com.vietphat.newswave.dto.user;
 
 import com.vietphat.newswave.validation.passwordmatches.PasswordMatches;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @PasswordMatches

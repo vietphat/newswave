@@ -1,7 +1,6 @@
 package com.vietphat.newswave.controller.dashboard;
 
 import com.vietphat.newswave.dto.category.CategoryDTO;
-import com.vietphat.newswave.dto.user.UserDTO;
 import com.vietphat.newswave.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
