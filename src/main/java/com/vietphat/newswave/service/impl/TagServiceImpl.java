@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +27,16 @@ public class TagServiceImpl implements TagService {
     public TagServiceImpl(TagRepository tagRepository, ModelMapper modelMapper) {
         this.tagRepository = tagRepository;
         this.modelMapper = modelMapper;
+    }
+
+    @Override
+    public List<TagDTO> findAll() {
+
+        List<TagEntity> tags = tagRepository.findAll();
+
+        List<TagDTO> result = tags.stream().map(tag -> modelMapper.map(tag, TagDTO.class)).collect(Collectors.toList());
+
+        return result;
     }
 
     @Override

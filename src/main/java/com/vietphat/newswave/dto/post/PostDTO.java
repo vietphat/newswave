@@ -6,6 +6,7 @@ import com.vietphat.newswave.entity.CategoryEntity;
 import com.vietphat.newswave.enums.PostStatus;
 import com.vietphat.newswave.service.PostService;
 import com.vietphat.newswave.validation.uniquefield.UniqueField;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
@@ -50,6 +51,8 @@ public class PostDTO extends BaseDTO<PostDTO> {
     public Long postedUserId;
 
     private PostDTO postedUser;
+
+    private List<String> tagCodes = new ArrayList<>();
 
     private List<TagDTO> tags = new ArrayList<>();
 
@@ -176,6 +179,14 @@ public class PostDTO extends BaseDTO<PostDTO> {
         this.postedUserId = postedUserId;
     }
 
+    public List<String> getTagCodes() {
+        return tagCodes;
+    }
+
+    public void setTagCodes(List<String> tagCodes) {
+        this.tagCodes = tagCodes;
+    }
+
     public String getThumbnailPath() {
 
         if (id == null || thumbnail == null) {
@@ -183,5 +194,20 @@ public class PostDTO extends BaseDTO<PostDTO> {
         }
 
         return "/images/post-thumbnails/" + id + "/" + thumbnail;
+    }
+
+    public boolean containsTag(String tagCode) {
+
+        if (tagCode == null || tagCode.isEmpty()) {
+            return false;
+        }
+
+        for (TagDTO tag : tags) {
+            if (tag.getCode().equals(tagCode)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

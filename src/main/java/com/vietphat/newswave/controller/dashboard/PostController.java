@@ -4,6 +4,7 @@ import com.vietphat.newswave.constant.SystemConstant;
 import com.vietphat.newswave.dto.post.PostDTO;
 import com.vietphat.newswave.service.CategoryService;
 import com.vietphat.newswave.service.PostService;
+import com.vietphat.newswave.service.TagService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -36,10 +37,13 @@ public class PostController {
 
     private CategoryService categoryService;
 
+    private TagService tagService;
+
     @Autowired
-    public PostController(PostService postService, CategoryService categoryService) {
+    public PostController(PostService postService, CategoryService categoryService, TagService tagService) {
         this.postService = postService;
         this.categoryService = categoryService;
+        this.tagService = tagService;
     }
 
     @GetMapping("/danh-sach")
@@ -63,17 +67,19 @@ public class PostController {
 
         model.addAttribute("model", postDTO);
         model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("tags", tagService.findAll());
         return "views/dashboard/post/edit";
     }
 
     @PostMapping("/them")
-    public String create(@Valid @ModelAttribute("model") PostDTO postDTO,
-                         @RequestParam("thumbnailFile") MultipartFile multipartFile,
+    public String create(@RequestParam(name = "thumbnailFile", required = false) MultipartFile multipartFile,
+                         @Valid @ModelAttribute("model") PostDTO postDTO,
                          BindingResult bindingResult,
                          Model model, RedirectAttributes redirectAttributes) throws IOException {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("categories", categoryService.findAll());
+            model.addAttribute("tags", tagService.findAll());
             return "views/dashboard/post/edit";
         }
 
@@ -122,19 +128,20 @@ public class PostController {
 
         model.addAttribute("model", postDTO);
         model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("tags", tagService.findAll());
         return "views/dashboard/post/edit";
     }
 
     @PostMapping("/chinh-sua/{id}")
     public String edit(@PathVariable("id") Long id,
-                       @Valid @ModelAttribute("model") PostDTO postDTO,
                        @RequestParam("thumbnailFile") MultipartFile multipartFile,
+                       @Valid @ModelAttribute("model") PostDTO postDTO,
                        BindingResult bindingResult,
-                       RedirectAttributes redirectAttributes,
                        Model model) throws IOException {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("categories", categoryService.findAll());
+            model.addAttribute("tags", tagService.findAll());
             return "views/dashboard/post/edit";
         }
 
@@ -171,6 +178,7 @@ public class PostController {
 
         model.addAttribute("model", updatedPostDTO);
         model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("tags", tagService.findAll());
         model.addAttribute("alert", "success");
         model.addAttribute("message", "Cập nhật bài viết thành công.");
         return "views/dashboard/post/edit";

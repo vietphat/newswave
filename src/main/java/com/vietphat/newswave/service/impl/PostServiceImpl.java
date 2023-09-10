@@ -1,11 +1,14 @@
 package com.vietphat.newswave.service.impl;
 
 import com.vietphat.newswave.dto.post.PostDTO;
+import com.vietphat.newswave.dto.tag.TagDTO;
 import com.vietphat.newswave.entity.CategoryEntity;
 import com.vietphat.newswave.entity.PostEntity;
+import com.vietphat.newswave.entity.TagEntity;
 import com.vietphat.newswave.entity.UserEntity;
 import com.vietphat.newswave.repository.CategoryRepository;
 import com.vietphat.newswave.repository.PostRepository;
+import com.vietphat.newswave.repository.TagRepository;
 import com.vietphat.newswave.repository.UserRepository;
 import com.vietphat.newswave.service.PostService;
 import org.modelmapper.ModelMapper;
@@ -16,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,12 +33,15 @@ public class PostServiceImpl implements PostService {
 
     private UserRepository userRepository;
 
+    private TagRepository tagRepository;
+
     @Autowired
-    public PostServiceImpl(ModelMapper modelMapper, PostRepository postRepository, CategoryRepository categoryRepository, UserRepository userRepository) {
+    public PostServiceImpl(ModelMapper modelMapper, PostRepository postRepository, CategoryRepository categoryRepository, UserRepository userRepository, TagRepository tagRepository) {
         this.modelMapper = modelMapper;
         this.postRepository = postRepository;
         this.categoryRepository = categoryRepository;
         this.userRepository = userRepository;
+        this.tagRepository = tagRepository;
     }
 
     @Override
@@ -75,17 +82,24 @@ public class PostServiceImpl implements PostService {
             postDTO.setThumbnail("default.jpg");
         }
 
-        // convert category code -> category
-        CategoryEntity category = categoryRepository.findByCode(postDTO.getCategoryCode());
-
-        // convert postedUserId (Long) -> postedUser (UserEntity)
-        UserEntity postedUser = userRepository.findById(postDTO.getPostedUserId()).orElse(null);
-
         // map DTO -> entity
         PostEntity post = modelMapper.map(postDTO, PostEntity.class);
 
-        // set category, posted user
+        // convert category code -> category
+        CategoryEntity category = categoryRepository.findByCode(postDTO.getCategoryCode());
         post.setCategory(category);
+
+        // convert tag codes -> tags
+        if (postDTO.getTagCodes() != null && !postDTO.getTagCodes().isEmpty()) {
+            List<TagEntity> tags = postDTO.getTagCodes().stream().map(
+                    tagCode -> tagRepository.findByCode(tagCode)
+            ).collect(Collectors.toList());
+
+            post.setTags(tags);
+        }
+
+        // convert postedUserId (Long) -> postedUser (UserEntity)
+        UserEntity postedUser = userRepository.findById(postDTO.getPostedUserId()).orElse(null);
         post.setPostedUser(postedUser);
 
         // save
@@ -122,6 +136,13 @@ public class PostServiceImpl implements PostService {
 
             post.setCategory(category);
         }
+
+        // cập nhật thẻ bài viết
+        List<TagEntity> tags = postDTO.getTagCodes().stream().map(
+                                        tagCode -> tagRepository.findByCode(tagCode)
+                                ).collect(Collectors.toList());
+        post.setTags(tags);
+
 
         // lưu thay đổi
         PostEntity updatedPost = postRepository.save(post);

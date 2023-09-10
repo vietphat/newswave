@@ -9,6 +9,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface TagRepository extends JpaRepository<TagEntity, Long> {
 
+    TagEntity findByCode(String code);
+
     boolean existsByCode(String code);
 
     @Query("SELECT t FROM TagEntity t" +
