@@ -6,19 +6,19 @@
 >
 
 <head>
-    <title>Chi tiết thẻ bài viết</title>
+    <title>Chi tiết bài viết</title>
 </head>
 
 <body>
 <div layout:fragment="content">
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Chi tiết thẻ bài viết</h1>
+    <h1 class="h3 mb-4 text-gray-800">Chi tiết bài viết</h1>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <p class="mb-0" th:text="|Chi tiết thẻ bài viết: ${model.name}|"/>
-            <a class="mb-0" th:href="@{/quan-tri/the/danh-sach}">
+            <p class="mb-0" th:text="|Chi tiết bài viết: ${model.title}|"/>
+            <a class="mb-0" th:href="@{/quan-tri/bai-viet/danh-sach}">
                 Quay lại danh sách
             </a>
         </div>
@@ -31,19 +31,66 @@
                     <td th:text="${model.id}"></td>
                 </tr>
                 <tr>
-                    <th>Tên danh mục</th>
-                    <td th:text="${model.name}"></td>
+                    <th>Tiêu đề</th>
+                    <td th:text="${model.title}"></td>
                 </tr>
                 <tr>
-                    <th>Mã danh mục</th>
-                    <td th:text="${model.code}"></td>
+                    <th>Slug</th>
+                    <td th:text="${model.slug}"></td>
                 </tr>
                 <tr>
-                    <th>Các bài viết</th>
+                    <th>Ảnh bìa</th>
                     <td>
-                        <a th:href="@{/quan-tri/bai-viet/danh-sach(tag=${model.code}, page=1, size=5)}">
-                            Xem danh sách thẻ bài viết thuộc danh mục này
-                        </a>
+                        <img class="img-fluid"
+                             th:src="@{${model.getThumbnailPath()}}"
+                             style="width: 300px;" alt="Ảnh bìa"
+                        >
+                    </td>
+                </tr>
+                <tr>
+                    <th>Mô tả ngắn</th>
+                    <td th:text="${model.shortDescription}"></td>
+                </tr>
+                <tr>
+                    <th>Nội dung</th>
+                    <td>
+                        <a th:href="@{/bai-viet/{slug}(slug=${model.slug})}">Xem nội dung bài viết</a>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Lượt xem</th>
+                    <td th:text="${model.views}"></td>
+                </tr>
+                <tr>
+                    <th>Trạng thái</th>
+                    <td th:text="${model.published}"></td>
+                </tr>
+                <tr>
+                    <th>Ngày đăng</th>
+                    <td th:text="${#dates.format(model.publishedDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>Danh mục</th>
+                    <td>
+                        <a th:href="@{/quan-tri/bai-viet/danh-sach(category=${model.category.code}, page=1, size=5)}"
+                           th:text="${model.category.name}"
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Người đăng</th>
+                    <td>
+                        <a th:href="@{/quan-tri/nguoi-dung/danh-sach/{id}(id=${model.postedUser.id})}"
+                           th:text="${model.postedUser.fullName}"
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Thẻ bài viết</th>
+                    <td>
+                        <p th:each="tag : ${model.tags}" class="mb-0">
+                            <a th:href="@{/quan-tri/bai-viet/danh-sach(tag=${tag.code})}" class="badge badge-secondary" th:text="${tag.name}"/>
+                        </p>
                     </td>
                 </tr>
                 <tr>
@@ -52,7 +99,7 @@
                 </tr>
                 <tr>
                     <th>Ngày tạo</th>
-                    <td th:text="${#dates.format(model.createdDate, 'dd-MM-yyyy hh:mm:ss')}"></td>
+                    <td th:text="${#dates.format(model.createdDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
                 </tr>
                 <tr>
                     <th>Lần chỉnh sửa cuối cùng bởi</th>
@@ -60,7 +107,7 @@
                 </tr>
                 <tr>
                     <th>Lần chỉnh sửa cuối cùng</th>
-                    <td th:text="${#dates.format(model.modifiedDate, 'dd-MM-yyyy hh:mm:ss')}"></td>
+                    <td th:text="${#dates.format(model.modifiedDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
                 </tr>
                 </tbody>
             </table>

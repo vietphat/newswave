@@ -12,6 +12,11 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
     boolean existsBySlug(String slug);
 
     @Query("SELECT p FROM PostEntity p " +
+            "JOIN FETCH p.postedUser " +
+            "WHERE p.id = :id")
+    PostEntity findDetailsById(@Param("id") Long id);
+
+    @Query("SELECT p FROM PostEntity p " +
             "WHERE :search IS NULL OR LOWER(p.title) LIKE %:search% " +
             "OR LOWER(p.shortDescription) LIKE %:search% OR LOWER(p.content) LIKE %:search% ")
     Page<PostEntity> searchPostsWithPagination(Pageable pageable, @Param("search") String search);

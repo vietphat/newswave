@@ -75,11 +75,19 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public PostDTO findDetailsById(Long id) {
+
+        PostEntity post = postRepository.findDetailsById(id);
+
+        return post != null ? modelMapper.map(post, PostDTO.class) : null;
+    }
+
+    @Override
     public PostDTO save(PostDTO postDTO) {
 
         // set thumbnail
         if (postDTO.getThumbnail() == null || postDTO.getThumbnail().isEmpty()) {
-            postDTO.setThumbnail("default.jpg");
+            postDTO.setThumbnail("../default.jpg");
         }
 
         // map DTO -> entity
@@ -151,6 +159,39 @@ public class PostServiceImpl implements PostService {
         PostDTO updatedPostDTO = modelMapper.map(updatedPost, PostDTO.class);
 
         return updatedPostDTO;
+    }
+
+    @Override
+    public void delete(String[] ids) {
+
+        try {
+            for (String id : ids) {
+                PostEntity post = postRepository.findById(Long.parseLong(id)).orElse(null);
+
+                if (post != null) {
+
+                    // set user_id to null
+                    post.setPostedUser(null);
+
+                    // set category_id to null
+                    post.setCategory(null);
+
+                    // delete post_tag
+                    post.setTags(null);
+
+                    // delete saved_post
+                    post.setSavingUsers(null);
+
+                    // TODO: delete post comments ...
+                    post.setComments(null);
+
+                    // finally, delete this one
+                    postRepository.delete(post);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     @Override

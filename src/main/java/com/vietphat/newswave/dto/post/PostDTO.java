@@ -2,11 +2,11 @@ package com.vietphat.newswave.dto.post;
 
 import com.vietphat.newswave.dto.BaseDTO;
 import com.vietphat.newswave.dto.tag.TagDTO;
+import com.vietphat.newswave.dto.user.UserDTO;
 import com.vietphat.newswave.entity.CategoryEntity;
 import com.vietphat.newswave.enums.PostStatus;
 import com.vietphat.newswave.service.PostService;
 import com.vietphat.newswave.validation.uniquefield.UniqueField;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
@@ -37,7 +37,6 @@ public class PostDTO extends BaseDTO<PostDTO> {
     @NotNull(message = "Ngày đăng là bắt buộc")
     private PostStatus published;
 
-    @NotNull(message = "Ngày đăng là bắt buộc")
     private Date publishedDate;
 
     private Integer views;
@@ -50,7 +49,7 @@ public class PostDTO extends BaseDTO<PostDTO> {
     @NotNull(message = "Người đăng là bắt buộc")
     public Long postedUserId;
 
-    private PostDTO postedUser;
+    private UserDTO postedUser;
 
     private List<String> tagCodes = new ArrayList<>();
 
@@ -155,11 +154,11 @@ public class PostDTO extends BaseDTO<PostDTO> {
         this.thumbnailPath = thumbnailPath;
     }
 
-    public PostDTO getPostedUser() {
+    public UserDTO getPostedUser() {
         return postedUser;
     }
 
-    public void setPostedUser(PostDTO postedUser) {
+    public void setPostedUser(UserDTO postedUser) {
         this.postedUser = postedUser;
     }
 

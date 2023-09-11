@@ -1,6 +1,7 @@
 package com.vietphat.newswave.controller.dashboard;
 
 import com.vietphat.newswave.constant.SystemConstant;
+import com.vietphat.newswave.dto.category.CategoryDTO;
 import com.vietphat.newswave.dto.post.PostDTO;
 import com.vietphat.newswave.service.CategoryService;
 import com.vietphat.newswave.service.PostService;
@@ -60,6 +61,15 @@ public class PostController {
         return "views/dashboard/post/list";
     }
 
+    @GetMapping("/danh-sach/{id}")
+    public String getDetails(@PathVariable("id") Long id, Model model) {
+
+        PostDTO postDTO = postService.findDetailsById(id);
+
+        model.addAttribute("model", postDTO);
+        return "views/dashboard/post/details";
+    }
+
     @GetMapping("/them")
     public String createForm(Model model) {
 
@@ -107,7 +117,6 @@ public class PostController {
         } else {
             createdPostDTO = postService.save(postDTO);
         }
-
 
         if (createdPostDTO == null) {
             model.addAttribute("alert", "danger");
@@ -182,6 +191,25 @@ public class PostController {
         model.addAttribute("alert", "success");
         model.addAttribute("message", "Cập nhật bài viết thành công.");
         return "views/dashboard/post/edit";
+    }
+
+    @PostMapping("/xoa")
+    public String delete(@RequestParam(value = "selectedIds", required = false) String selectedIds,
+                         RedirectAttributes redirectAttributes) {
+
+        if (selectedIds == null) {
+            redirectAttributes.addFlashAttribute("alert", "danger");
+            redirectAttributes.addFlashAttribute("message", "Vui lòng chọn bài viết cần xóa.");
+            return "redirect:/quan-tri/bai-viet/danh-sach";
+        }
+
+        String[] ids = selectedIds.split(",");
+
+        postService.delete(ids);
+
+        redirectAttributes.addFlashAttribute("alert", "success");
+        redirectAttributes.addFlashAttribute("message", "Xóa bài viết thành công.");
+        return "redirect:/quan-tri/bai-viet/danh-sach";
     }
 
     @InitBinder

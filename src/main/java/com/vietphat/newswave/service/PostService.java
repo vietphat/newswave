@@ -9,8 +9,12 @@ public interface PostService extends UniqueFieldService {
 
     PostDTO findById(Long id);
 
+    PostDTO findDetailsById(Long id);
+
     PostDTO save(PostDTO postDTO);
 
     PostDTO update(PostDTO postDTO);
+
+    void delete(String[] ids);
 
 }
