@@ -1,5 +1,6 @@
 package com.vietphat.newswave.entity;
 
+import com.vietphat.newswave.enums.CommentStatus;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -16,15 +17,20 @@ public class CommentEntity extends BaseEntity {
     @JoinColumn(name = "parent_id")
     private CommentEntity parent;
 
-    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentEntity> replies = new ArrayList<>();;
 
-    @ManyToMany(mappedBy = "comments")
-    private List<UserEntity> users = new ArrayList<>();;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
 
-    @ManyToOne
-    @JoinColumn(name = "post_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id", nullable = false)
     private PostEntity post;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private CommentStatus status;
 
     public CommentEntity() {
     }
@@ -57,12 +63,12 @@ public class CommentEntity extends BaseEntity {
         this.replies = replies;
     }
 
-    public List<UserEntity> getUsers() {
-        return users;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setUsers(List<UserEntity> users) {
-        this.users = users;
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
     public PostEntity getPost() {
@@ -71,5 +77,13 @@ public class CommentEntity extends BaseEntity {
 
     public void setPost(PostEntity post) {
         this.post = post;
+    }
+
+    public CommentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CommentStatus status) {
+        this.status = status;
     }
 }

@@ -454,7 +454,21 @@ COMMIT;
 -- sửa bảng post để người dùng cũng có thể gửi yêu cầu đăng bài
 -- user 1 - n post
 ALTER TABLE `post`
-    ADD COLUMN `user_id` bigint(20) DEFAULT NULL AFTER category_id;
+    ADD COLUMN `user_id` bigint(20) NOT NULL AFTER `category_id``;
 
 ALTER TABLE `post`
   ADD CONSTRAINT `user_add_post` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+
+-- sửa bảng comment do tạo sai
+-- user 1 - n post
+ALTER TABLE `comment`
+    ADD COLUMN `user_id` bigint(20) NOT NULL AFTER `post_id`;
+
+ALTER TABLE `comment`
+  ADD CONSTRAINT `user_add_comment` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+ALTER TABLE `comment`
+    ADD COLUMN `status` enum('DISPLAY', 'REPORTED', 'HIDDEN') NOT NULL AFTER `user_id`;
+
+

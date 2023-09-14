@@ -265,6 +265,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void saveLastLogin(Long id) {
         UserEntity user = userRepository.findById(id).orElse(null);
 

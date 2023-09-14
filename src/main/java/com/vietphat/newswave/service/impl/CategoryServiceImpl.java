@@ -110,6 +110,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public void delete(String[] ids) {
 
         try {

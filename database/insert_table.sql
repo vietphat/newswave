@@ -83,3 +83,16 @@ INSERT INTO tag VALUES(0, 'Spring WebSocket', 'spring-web-socket', 'root', curre
 -- post
 INSERT INTO post VALUES(0, 'Ba thông điệp lớn của Việt Nam tại Hội nghị Cấp cao ASEAN 43', 'ba-thong-diep-lon-cua-viet-nam-tai-hoi-nghi-cap-cao-asean-43', 'default.jpg', 'Mô tả ngắn', '<p>Nội dung</p>', 0, 1, current_timestamp(), 1, 1, 'root', current_timestamp(), 'root', current_timestamp());
 
+-- comment
+INSERT INTO comment VALUES(0, 'Test 1', null, 1, 1, 'DISPLAY', 'root', current_timestamp(), 'root', current_timestamp());
+INSERT INTO comment VALUES(0, 'Test 2', null, 1, 1, 'DISPLAY', 'root', current_timestamp(), 'root', current_timestamp());
+INSERT INTO comment VALUES(0, 'Test 3', null, 1, 1, 'DISPLAY', 'root', current_timestamp(), 'root', current_timestamp());
+INSERT INTO comment VALUES(0, 'Test 4', null, 1, 1, 'DISPLAY', 'root', current_timestamp(), 'root', current_timestamp());
+INSERT INTO comment VALUES(0, 'Test 5', null, 1, 1, 'REPORTED', 'root', current_timestamp(), 'root', current_timestamp());
+INSERT INTO comment VALUES(0, 'Test 6', null, 1, 1, 'HIDDEN', 'root', current_timestamp(), 'root', current_timestamp());
+
+INSERT INTO comment VALUES(0, 'Test 1.1', 1, 1, 1, 'DISPLAY', 'root', current_timestamp(), 'root', current_timestamp());
+INSERT INTO comment VALUES(0, 'Test 1.2', 1, 1, 1, 'DISPLAY', 'root', current_timestamp(), 'root', current_timestamp());
+INSERT INTO comment VALUES(0, 'Test 1.3', 1, 1, 1, 'DISPLAY', 'root', current_timestamp(), 'root', current_timestamp());
+INSERT INTO comment VALUES(0, 'Test 1.4', 1, 1, 1, 'DISPLAY', 'root', current_timestamp(), 'root', current_timestamp());
+INSERT INTO comment VALUES(0, 'Test 1.5', 1, 1, 1, 'DISPLAY', 'root', current_timestamp(), 'root', current_timestamp());

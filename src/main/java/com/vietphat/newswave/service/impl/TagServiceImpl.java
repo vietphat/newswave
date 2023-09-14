@@ -109,6 +109,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    @Transactional
     public void delete(String[] ids) {
 
         try {

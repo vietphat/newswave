@@ -53,6 +53,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
     }
 
     @Override
+    @Transactional
     public void deleteResetPasswordToken(ResetPasswordTokenEntity resetPasswordToken) {
         resetPasswordToken.setUser(null);
         resetPasswordTokenRepository.delete(resetPasswordToken);
