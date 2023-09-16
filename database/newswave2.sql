@@ -480,3 +480,7 @@ ALTER TABLE `comment_report`
 
 ALTER TABLE comment_report
 	ADD COLUMN `approved` BOOLEAN AFTER `user_id`;
+
+-- thêm cột cho bảng contact
+ALTER TABLE `contact`
+    ADD COLUMN `responded` BOOLEAN AFTER `content`;

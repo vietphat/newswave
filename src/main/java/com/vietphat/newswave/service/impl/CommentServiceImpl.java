@@ -2,7 +2,9 @@ package com.vietphat.newswave.service.impl;
 
 import com.vietphat.newswave.dto.comment.CommentDTO;
 import com.vietphat.newswave.entity.CommentEntity;
+import com.vietphat.newswave.entity.CommentReportEntity;
 import com.vietphat.newswave.enums.CommentStatus;
+import com.vietphat.newswave.repository.CommentReportRepository;
 import com.vietphat.newswave.repository.CommentRepository;
 import com.vietphat.newswave.service.CommentService;
 import org.modelmapper.ModelMapper;
@@ -22,10 +24,13 @@ public class CommentServiceImpl implements CommentService {
 
     private CommentRepository commentRepository;
 
+    private CommentReportRepository commentReportRepository;
+
     @Autowired
-    public CommentServiceImpl(ModelMapper modelMapper, CommentRepository commentRepository) {
+    public CommentServiceImpl(ModelMapper modelMapper, CommentRepository commentRepository, CommentReportRepository commentReportRepository) {
         this.modelMapper = modelMapper;
         this.commentRepository = commentRepository;
+        this.commentReportRepository = commentReportRepository;
     }
 
     @Override
@@ -89,6 +94,13 @@ public class CommentServiceImpl implements CommentService {
                     comment.setParent(null);
                     comment.setUser(null);
                     comment.setPost(null);
+
+                    for (CommentReportEntity cr : comment.getCommentReports()) {
+                        cr.setComment(null);
+                        cr.setUser(null);
+                        commentReportRepository.delete(cr);
+                    }
+                    comment.setCommentReports(null);
 
                     commentRepository.delete(comment);
                 }

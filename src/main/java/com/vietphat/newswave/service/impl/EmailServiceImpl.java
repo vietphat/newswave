@@ -1,5 +1,6 @@
 package com.vietphat.newswave.service.impl;
 
+import com.vietphat.newswave.dto.EmailDetails;
 import com.vietphat.newswave.entity.ResetPasswordTokenEntity;
 import com.vietphat.newswave.entity.UserEntity;
 import com.vietphat.newswave.service.EmailService;
@@ -21,6 +22,24 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     public EmailServiceImpl(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
+    }
+
+    @Override
+    public boolean sendSimpleMail(EmailDetails emailDetails) {
+        try {
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+            mailMessage.setFrom(sender);
+            mailMessage.setTo(emailDetails.getRecipient());
+            mailMessage.setSubject(emailDetails.getSubject());
+            mailMessage.setText(emailDetails.getMessageBody());
+
+            javaMailSender.send(mailMessage);
+            return true;
+        } catch (Exception exception) {
+            System.out.println(exception);
+            return false;
+        }
     }
 
     @Override

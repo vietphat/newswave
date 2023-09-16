@@ -1,41 +1,22 @@
-package com.vietphat.newswave.entity;
+package com.vietphat.newswave.dto.contact;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.vietphat.newswave.dto.BaseDTO;
 
-@Entity
-@Table(name = "contact")
-public class ContactEntity extends BaseEntity {
+public class ContactDTO extends BaseDTO<ContactDTO> {
 
-    @Column(name = "full_name", nullable = false)
     private String fullName;
 
-    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "title", nullable = false)
     private String title;
 
-
-    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @Column(name = "responded")
     private boolean responded;
 
-    public ContactEntity() {
-    }
-
-    public ContactEntity(String fullName, String email, String phoneNumber, String title, String content) {
-        this.fullName = fullName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.title = title;
-        this.content = content;
+    public ContactDTO() {
     }
 
     public String getFullName() {

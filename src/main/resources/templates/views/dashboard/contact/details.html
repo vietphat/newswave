@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/dashboard}"
+>
+
+<head>
+    <title>Chi tiết liên hệ</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">Chi tiết liên hệ</h1>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <!--      messages      -->
+        <div th:if="${message != null}" th:class="|alert alert-${alert} alert-dismissible fade show text-center|" role="alert">
+            <span th:class="|text-${alert} mb-0|" th:text="${message}"/>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <p class="mb-0">Chi tiết liên hệ</p>
+            <a class="mb-0" th:href="@{/quan-tri/lien-he/danh-sach}">
+                Quay lại danh sách
+            </a>
+        </div>
+
+        <div class="card-body">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td th:text="${model.id}"></td>
+                </tr>
+                <tr>
+                    <th>Tên đầy đủ</th>
+                    <td th:text="${model.fullName}"></td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td th:text="${model.email}"></td>
+                </tr>
+                <tr>
+                    <th>Số điện thoại</th>
+                    <td th:text="${model.phoneNumber}"></td>
+                </tr>
+                <tr>
+                    <th>Tiêu để</th>
+                    <td th:text="${model.title}"></td>
+                </tr>
+                <tr>
+                    <th>Nội dung</th>
+                    <td th:text="${model.content}"></td>
+                </tr>
+                <tr>
+                    <th>Tạo bởi</th>
+                    <td th:text="${model.createdBy}"></td>
+                </tr>
+                <tr>
+                    <th>Trạng thái</th>
+                    <td th:text="${model.responded} ? 'Đã phản hồi' : 'Chưa phản hồi'"
+                        th:class="${model.responded} ? 'text-success' : 'text-warning'"
+                    />
+                </tr>
+                <tr>
+                    <th>Ngày tạo</th>
+                    <td th:text="${#dates.format(model.createdDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>Lần chỉnh sửa cuối cùng bởi</th>
+                    <td th:text="${model.modifiedBy}"></td>
+                </tr>
+                <tr>
+                    <th>Lần chỉnh sửa cuối cùng</th>
+                    <td th:text="${#dates.format(model.modifiedDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+
+    <div th:if="${!model.responded}" class="card shadow mb-4">
+        <div class="card-header py-3">
+            <p class="mb-0">Gửi phản hồi</p>
+        </div>
+
+        <div class="card-body">
+            <form th:object="${responseDTO}" method="post" th:action="@{/quan-tri/lien-he/phan-hoi/{id}(id=${model.id})}">
+                <input type="hidden" id="contactId" name="contactId" th:value="${model.id}" />
+
+                <div class="form-group">
+                    <label th:for="title">Tiêu đề <span class="text-danger">(*)</span></label>
+                    <input th:field="*{title}" type="text" class="form-control" placeholder="Tiêu đề..."/>
+                    <span class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"/>
+                </div>
+
+                <div class="form-group">
+                    <label th:for="content">Nội dung <span class="text-danger">(*)</span></label>
+                    <textarea th:field="*{content}" type="text" class="form-control" rows="5" placeholder="Nội dung..."/>
+                    <span class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"/>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-success" type="submit">Gửi phản hồi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

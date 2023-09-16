@@ -106,3 +106,14 @@ INSERT INTO comment_report VALUES(0, 'Vi phạm abcxyz', 3, 1, 0, 'root', curren
 INSERT INTO comment_report VALUES(0, 'Vi phạm abcxyz', 3, 1, 0, 'root', current_timestamp(),  'root', current_timestamp());
 INSERT INTO comment_report VALUES(0, 'Vi phạm abcxyz', 4, 1, 0, 'root', current_timestamp(),  'root', current_timestamp());
 INSERT INTO comment_report VALUES(0, 'Vi phạm abcxyz', 5, 1, 0, 'root', current_timestamp(),  'root', current_timestamp());
+
+-- contact
+INSERT INTO contact VALUES(0, "test1@gmail.com", "Nguyễn Văn A", "0941231234", "tiêu đề 1", "nội dung 1", 0, "root", current_timestamp(), "root", current_timestamp());
+INSERT INTO contact VALUES(0, "test2@gmail.com", "Nguyễn Văn B", "0941231234", "tiêu đề 2", "nội dung 2", 0, "root", current_timestamp(), "root", current_timestamp());
+INSERT INTO contact VALUES(0, "test3@gmail.com", "Nguyễn Văn C", "0941231234", "tiêu đề 3", "nội dung 3", 0, "root", current_timestamp(), "root", current_timestamp());
+INSERT INTO contact VALUES(0, "test4@gmail.com", "Nguyễn Văn D", "0941231234", "tiêu đề 4", "nội dung 4", 0, "root", current_timestamp(), "root", current_timestamp());
+INSERT INTO contact VALUES(0, "test5@gmail.com", "Nguyễn Văn E", "0941231234", "tiêu đề 5", "nội dung 5", 0, "root", current_timestamp(), "root", current_timestamp());
+INSERT INTO contact VALUES(0, "test6@gmail.com", "Nguyễn Văn F", "0941231234", "tiêu đề 6", "nội dung 6", 0, "root", current_timestamp(), "root", current_timestamp());
+INSERT INTO contact VALUES(0, "test7@gmail.com", "Nguyễn Văn G", "0941231234", "tiêu đề 7", "nội dung 7", 1, "root", current_timestamp(), "root", current_timestamp());
+INSERT INTO contact VALUES(0, "test8@gmail.com", "Nguyễn Văn H", "0941231234", "tiêu đề 8", "nội dung 8", 1, "root", current_timestamp(), "root", current_timestamp());
+

@@ -10,6 +10,12 @@ public class EmailDetails {
     public EmailDetails() {
     }
 
+    public EmailDetails(String recipient, String messageBody, String subject) {
+        this.recipient = recipient;
+        this.messageBody = messageBody;
+        this.subject = subject;
+    }
+
     public EmailDetails(String recipient, String messageBody, String subject, String attachment) {
         this.recipient = recipient;
         this.messageBody = messageBody;

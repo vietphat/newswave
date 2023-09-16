@@ -32,6 +32,9 @@ public class CommentEntity extends BaseEntity {
     @Column(name = "status", nullable = false)
     private CommentStatus status;
 
+    @OneToMany(mappedBy = "comment")
+    private List<CommentReportEntity> commentReports;
+
     public CommentEntity() {
     }
 
@@ -85,5 +88,13 @@ public class CommentEntity extends BaseEntity {
 
     public void setStatus(CommentStatus status) {
         this.status = status;
+    }
+
+    public List<CommentReportEntity> getCommentReports() {
+        return commentReports;
+    }
+
+    public void setCommentReports(List<CommentReportEntity> commentReports) {
+        this.commentReports = commentReports;
     }
 }

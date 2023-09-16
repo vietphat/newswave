@@ -6,13 +6,13 @@
 >
 
 <head>
-    <title>Danh sách thẻ bài viết</title>
+    <title>Danh sách liên hệ</title>
 </head>
 
 <body>
 <div layout:fragment="content">
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Danh sách thẻ bài viết</h1>
+    <h1 class="h3 mb-4 text-gray-800">Danh sách liên hệ</h1>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
@@ -25,13 +25,6 @@
         </div>
 
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <a th:href="@{/quan-tri/the/them}" class="btn btn-success btn-icon-split">
-                <span class="icon text-white-50">
-                    <i class="fas fa-plus"></i>
-                </span>
-                <span class="text">Thêm mới</span>
-            </a>
-
             <a id="deleteModalBtn" class="btn btn-danger btn-icon-split d-none" data-toggle="modal" data-target="#deleteModal">
                 <span class="icon text-white-50">
                     <i class="fas fa-trash-alt"></i>
@@ -60,8 +53,10 @@
                     <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Tên thẻ</th>
-                        <th>Mã thẻ</th>
+                        <th>Tên đầy đủ</th>
+                        <th>Email</th>
+                        <th>Tiêu đề</th>
+                        <th>Trạng thái</th>
                         <th>Tạo bởi</th>
                         <th>Ngày tạo</th>
                         <th>Thao tác</th>
@@ -76,17 +71,18 @@
                                 <span th:text="${item.id}"/>
                             </label>
                         </td>
-                        <td th:text="${item.name}"/>
-                        <td th:text="${item.code}"/>
+                        <td th:text="${item.fullName}"/>
+                        <td th:text="${item.email}"/>
+                        <td th:text="${item.title}"/>
+                        <td th:text="${item.responded} ? 'Đã phản hồi' : 'Chưa phản hồi'"
+                            th:class="${item.responded} ? 'text-success' : 'text-warning'"
+                        />
                         <td th:text="${item.createdBy}">
                         <td th:text="${#dates.format(item.createdDate, 'dd-MM-yyyy hh:mm:ss')}"/>
                         <td>
-                            <a th:href="@{/quan-tri/the/danh-sach/{id}(id=${item.id})}"
+                            <a th:href="@{/quan-tri/lien-he/danh-sach/{id}(id=${item.id})}"
                                class="btn btn-secondary">
                                 <i class="fas fa-eye"></i>
-                            </a>
-                            <a th:href="@{/quan-tri/the/chinh-sua/{id}(id=${item.id})}" class="btn btn-info">
-                                <i class="fas fa-edit"></i>
                             </a>
                         </td>
                     </tr>
@@ -99,7 +95,6 @@
             </div>
         </div>
     </div>
-
     <!-- /.container-fluid -->
 
     <form id="pageForm" class="hidden">
@@ -110,21 +105,20 @@
 </div>
 
 <div layout:fragment="bottom-content">
-    <!-- Delete Users Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal"
-         aria-hidden="true">
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Xóa các thẻ bài viết đã chọn?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Xóa các liên hệ đã chọn?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="deleteForm" th:action="@{/quan-tri/the/xoa}" method="post">
+                <form id="deleteForm" th:action="@{/quan-tri/lien-he/xoa}" method="post">
                     <div class="modal-body">
                         <p>
-                            Bạn có đồng ý xóa các thẻ bài viết đã chọn hay không?
+                            Bạn có đồng ý xóa các liên hệ đã chọn hay không?
                         </p>
                         <div class="form-group">
                             <input type="hidden" id="selectedIds" name="selectedIds"/>
