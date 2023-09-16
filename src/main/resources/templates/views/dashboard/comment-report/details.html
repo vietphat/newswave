@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/dashboard}"
+>
+
+<head>
+    <title>Chi tiết báo cáo bình luận</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">Chi tiết báo cáo bình luận</h1>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <!--      messages      -->
+        <div th:if="${message != null}" th:class="|alert alert-${alert} alert-dismissible fade show text-center|" role="alert">
+            <span th:class="|text-${alert} mb-0|" th:text="${message}"/>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <p class="mb-0">Chi tiết báo cáo bình luận</p>
+            <a class="mb-0" th:href="@{/quan-tri/bao-cao-binh-luan/danh-sach}">
+                Quay lại danh sách
+            </a>
+        </div>
+
+        <div class="card-body">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td th:text="${model.id}"></td>
+                </tr>
+                <tr>
+                    <th>Bình luận</th>
+                    <td>
+                        <a th:href="@{/quan-tri/binh-luan/danh-sach/{id}(id=${model.comment.id})}"
+                           th:text="${model.comment.content}"
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Người báo cáo</th>
+                    <td>
+                        <a th:href="@{/quan-tri/nguoi-dung/danh-sach/{id}(id=${model.user.id})}"
+                           th:text="${model.user.fullName}"
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Lý do</th>
+                    <td th:text="${model.reason}"></td>
+                </tr>
+                <tr>
+                    <th>Tạo bởi</th>
+                    <td th:text="${model.createdBy}"></td>
+                </tr>
+                <tr>
+                    <th>Ngày tạo</th>
+                    <td th:text="${#dates.format(model.createdDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>Lần chỉnh sửa cuối cùng bởi</th>
+                    <td th:text="${model.modifiedBy}"></td>
+                </tr>
+                <tr>
+                    <th>Lần chỉnh sửa cuối cùng</th>
+                    <td th:text="${#dates.format(model.modifiedDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>Thao tác</th>
+                    <td th:if="${!model.approved}">
+                        <a class="btn btn-success btn-icon-split"
+                           id="confirmModalBtn"
+                           data-toggle="modal" data-target="#confirmModal"
+                        >
+                            <span class="icon text-white-50">
+                                <i class="fas fa-check"></i>
+                            </span>
+                            <span class="text">Xác nhận</span>
+                        </a>
+
+                        <a class="btn btn-danger btn-icon-split"
+                           id="rejectModalBtn"
+                           data-toggle="modal" data-target="#rejectModal"
+                        >
+                            <span class="icon text-white-50">
+                                <i class="fas fa-times"></i>
+                            </span>
+                            <span class="text">Từ chối</span>
+                        </a>
+                    </td>
+
+                    <td th:if="${model.approved}">
+                        <i><b>Báo cáo này đã dược kiểm duyệt</b></i>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</div>
+
+<div layout:fragment="bottom-content">
+    <!-- Confirm Report Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Xác nhận bình luận vi phạm?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{/quan-tri/bao-cao-binh-luan/kiem-duyet/{id}(id=${model.id})}" method="post">
+                    <div class="modal-body">
+                        <p>
+                            Xác nhận bình luận đã vi phạm? Hành động này sẽ ẩn đi bình luận bị báo cáo vi phạm.
+                        </p>
+                        <div class="form-group">
+                            <input type="hidden" name="action" value="confirm" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                        <button type="submit" class="btn btn-success">Đồng ý</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reject Report Modal -->
+    <div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="rejectModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rejectModalLabel">Xác nhận báo cáo bình luận?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{/quan-tri/bao-cao-binh-luan/kiem-duyet/{id}(id=${model.id})}" method="post">
+                    <div class="modal-body">
+                        <p>
+                            Xác nhận báo cáo bình luận này chưa phù hợp? Bình luận bị báo cáo sẽ vẫn hiển thị như thường.
+                        </p>
+                        <div class="form-group">
+                            <input type="hidden" name="action" value="reject" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                        <button type="submit" class="btn btn-success">Đồng ý</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<script layout:fragment="bottom-script" th:inline="javascript">-->
+<!--    $(function() {-->
+<!--        const changeStatusModal = $('#changeStatusModal');-->
+<!--        const statusInput = $('#statusInput');-->
+<!--        const modelStatus = /*[[${model.status}]]*/;-->
+
+<!--        $('#statusSelect').on('change', function(e) {-->
+<!--            const selectedStatus = $(this).find(':selected').val();-->
+
+<!--            if (selectedStatus !== modelStatus) {-->
+<!--                statusInput.val(selectedStatus);-->
+<!--                changeStatusModal.modal();-->
+<!--            }-->
+
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+</body>
+</html>

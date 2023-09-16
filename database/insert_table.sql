@@ -96,3 +96,13 @@ INSERT INTO comment VALUES(0, 'Test 1.2', 1, 1, 1, 'DISPLAY', 'root', current_ti
 INSERT INTO comment VALUES(0, 'Test 1.3', 1, 1, 1, 'DISPLAY', 'root', current_timestamp(), 'root', current_timestamp());
 INSERT INTO comment VALUES(0, 'Test 1.4', 1, 1, 1, 'DISPLAY', 'root', current_timestamp(), 'root', current_timestamp());
 INSERT INTO comment VALUES(0, 'Test 1.5', 1, 1, 1, 'DISPLAY', 'root', current_timestamp(), 'root', current_timestamp());
+
+-- comment report
+INSERT INTO comment_report VALUES(0, 'Vi phạm abcxyz', 2, 1, 0, 'root', current_timestamp(),  'root', current_timestamp());
+INSERT INTO comment_report VALUES(0, 'Vi phạm abcxyz', 2, 1, 0,'root', current_timestamp(),  'root', current_timestamp());
+INSERT INTO comment_report VALUES(0, 'Vi phạm abcxyz', 2, 1, 0,'root', current_timestamp(),  'root', current_timestamp());
+INSERT INTO comment_report VALUES(0, 'Vi phạm abcxyz', 3, 1, 0, 'root', current_timestamp(),  'root', current_timestamp());
+INSERT INTO comment_report VALUES(0, 'Vi phạm abcxyz', 3, 1, 0, 'root', current_timestamp(),  'root', current_timestamp());
+INSERT INTO comment_report VALUES(0, 'Vi phạm abcxyz', 3, 1, 0, 'root', current_timestamp(),  'root', current_timestamp());
+INSERT INTO comment_report VALUES(0, 'Vi phạm abcxyz', 4, 1, 0, 'root', current_timestamp(),  'root', current_timestamp());
+INSERT INTO comment_report VALUES(0, 'Vi phạm abcxyz', 5, 1, 0, 'root', current_timestamp(),  'root', current_timestamp());

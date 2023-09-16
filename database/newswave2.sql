@@ -460,7 +460,7 @@ ALTER TABLE `post`
   ADD CONSTRAINT `user_add_post` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 
--- sửa bảng comment do tạo sai
+-- sửa bảng comment
 -- user 1 - n post
 ALTER TABLE `comment`
     ADD COLUMN `user_id` bigint(20) NOT NULL AFTER `post_id`;
@@ -471,4 +471,12 @@ ALTER TABLE `comment`
 ALTER TABLE `comment`
     ADD COLUMN `status` enum('DISPLAY', 'REPORTED', 'HIDDEN') NOT NULL AFTER `user_id`;
 
+-- thêm cột cho bảng comment_report
+ALTER TABLE `comment_report`
+    ADD COLUMN `user_id` bigint(20) NOT NULL AFTER `comment_id`;
 
+ALTER TABLE `comment_report`
+  ADD CONSTRAINT `user_add_comment_report` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+ALTER TABLE comment_report
+	ADD COLUMN `approved` BOOLEAN AFTER `user_id`;
