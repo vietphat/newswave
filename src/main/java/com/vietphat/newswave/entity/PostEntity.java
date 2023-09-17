@@ -52,11 +52,11 @@ public class PostEntity extends BaseEntity {
     )
     private List<TagEntity> tags = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<CommentEntity> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post")
-    private List<SavedPostEntity> savingUsers = new ArrayList<>();
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<SavedPostEntity> savedPosts = new ArrayList<>();
 
     public PostEntity() {
     }
@@ -159,12 +159,12 @@ public class PostEntity extends BaseEntity {
         this.comments = comments;
     }
 
-    public List<SavedPostEntity> getSavingUsers() {
-        return savingUsers;
+    public List<SavedPostEntity> getSavedPosts() {
+        return savedPosts;
     }
 
-    public void setSavingUsers(List<SavedPostEntity> savingUsers) {
-        this.savingUsers = savingUsers;
+    public void setSavedPosts(List<SavedPostEntity> savedPosts) {
+        this.savedPosts = savedPosts;
     }
 
     public UserEntity getPostedUser() {

@@ -6,10 +6,7 @@ import com.vietphat.newswave.entity.CategoryEntity;
 import com.vietphat.newswave.entity.PostEntity;
 import com.vietphat.newswave.entity.TagEntity;
 import com.vietphat.newswave.entity.UserEntity;
-import com.vietphat.newswave.repository.CategoryRepository;
-import com.vietphat.newswave.repository.PostRepository;
-import com.vietphat.newswave.repository.TagRepository;
-import com.vietphat.newswave.repository.UserRepository;
+import com.vietphat.newswave.repository.*;
 import com.vietphat.newswave.service.PostService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.internal.util.Assert;
@@ -36,13 +33,18 @@ public class PostServiceImpl implements PostService {
 
     private TagRepository tagRepository;
 
+    private SavedPostRepository savedPostRepository;
+
     @Autowired
-    public PostServiceImpl(ModelMapper modelMapper, PostRepository postRepository, CategoryRepository categoryRepository, UserRepository userRepository, TagRepository tagRepository) {
+    public PostServiceImpl(ModelMapper modelMapper, PostRepository postRepository,
+                           CategoryRepository categoryRepository, UserRepository userRepository,
+                           TagRepository tagRepository, SavedPostRepository savedPostRepository) {
         this.modelMapper = modelMapper;
         this.postRepository = postRepository;
         this.categoryRepository = categoryRepository;
         this.userRepository = userRepository;
         this.tagRepository = tagRepository;
+        this.savedPostRepository = savedPostRepository;
     }
 
     @Override
@@ -182,12 +184,6 @@ public class PostServiceImpl implements PostService {
 
                     // delete post_tag
                     post.setTags(null);
-
-                    // delete saved_post
-                    post.setSavingUsers(null);
-
-                    // TODO: delete post comments ...
-                    post.setComments(null);
 
                     // finally, delete this one
                     postRepository.delete(post);

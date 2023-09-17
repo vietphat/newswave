@@ -45,14 +45,17 @@ public class UserEntity extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<RoleEntity> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<CommentEntity> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<SavedPostEntity> savedPosts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "postedUser")
+    @OneToMany(mappedBy = "postedUser", cascade = CascadeType.ALL)
     private List<PostEntity> postedPosts;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private ResetPasswordTokenEntity resetPasswordToken;
 
     public UserEntity() {
     }
@@ -171,6 +174,14 @@ public class UserEntity extends BaseEntity {
 
     public void setPostedPosts(List<PostEntity> postedPosts) {
         this.postedPosts = postedPosts;
+    }
+
+    public ResetPasswordTokenEntity getResetPasswordToken() {
+        return resetPasswordToken;
+    }
+
+    public void setResetPasswordToken(ResetPasswordTokenEntity resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
     }
 
     public void addRole(RoleEntity role) {

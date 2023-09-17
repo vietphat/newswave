@@ -32,7 +32,7 @@ public class CommentEntity extends BaseEntity {
     @Column(name = "status", nullable = false)
     private CommentStatus status;
 
-    @OneToMany(mappedBy = "comment")
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
     private List<CommentReportEntity> commentReports;
 
     public CommentEntity() {

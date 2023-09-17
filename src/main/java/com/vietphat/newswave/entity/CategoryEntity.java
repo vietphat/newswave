@@ -1,9 +1,6 @@
 package com.vietphat.newswave.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +15,7 @@ public class CategoryEntity extends BaseEntity {
     @Column(name = "code", nullable = false, unique = true)
     private String code;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<PostEntity> posts = new ArrayList<>();
 
     public CategoryEntity() {

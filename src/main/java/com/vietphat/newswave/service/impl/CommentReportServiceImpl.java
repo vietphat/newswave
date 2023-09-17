@@ -92,13 +92,8 @@ public class CommentReportServiceImpl implements CommentReportService {
             for (String id : ids) {
                 CommentReportEntity commentReport = commentReportRepository.findById(Long.parseLong(id)).orElse(null);
 
-                if (commentReport != null) {
-
-                    commentReport.setUser(null);
-                    commentReport.setComment(null);
-
-                    commentReportRepository.delete(commentReport);
-                }
+                commentReport.setUser(null);
+                commentReport.setComment(null);
             }
         } catch (Exception e) {
             System.out.println(e);

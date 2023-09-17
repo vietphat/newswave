@@ -2,7 +2,10 @@ package com.vietphat.newswave.service.impl;
 
 import com.vietphat.newswave.dto.category.CategoryDTO;
 import com.vietphat.newswave.entity.CategoryEntity;
+import com.vietphat.newswave.entity.PostEntity;
 import com.vietphat.newswave.repository.CategoryRepository;
+import com.vietphat.newswave.repository.PostRepository;
+import com.vietphat.newswave.repository.SavedPostRepository;
 import com.vietphat.newswave.service.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.internal.util.Assert;
@@ -23,10 +26,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     private CategoryRepository categoryRepository;
 
+    private PostRepository postRepository;
+
+    private SavedPostRepository savedPostRepository;
+
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository, ModelMapper modelMapper) {
-        this.categoryRepository = categoryRepository;
+    public CategoryServiceImpl(ModelMapper modelMapper, CategoryRepository categoryRepository, PostRepository postRepository, SavedPostRepository savedPostRepository) {
         this.modelMapper = modelMapper;
+        this.categoryRepository = categoryRepository;
+        this.postRepository = postRepository;
+        this.savedPostRepository = savedPostRepository;
     }
 
     @Override
@@ -117,13 +126,7 @@ public class CategoryServiceImpl implements CategoryService {
             for (String id : ids) {
                 CategoryEntity category = categoryRepository.findById(Long.parseLong(id)).orElse(null);
 
-                if (category != null) {
-                    // delete all the post_category contains this category
-                    category.setPosts(null);
-
-                    // finally, delete this user
-                    categoryRepository.delete(category);
-                }
+                categoryRepository.delete(category);
             }
         } catch (Exception e) {
             System.out.println(e);

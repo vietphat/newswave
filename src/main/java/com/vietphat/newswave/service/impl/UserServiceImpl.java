@@ -109,20 +109,11 @@ public class UserServiceImpl implements UserService {
 
                 if (user != null) {
 
-                    // delete all the comments
-                    user.setComments(null);
-
-                    // TODO: delete all the posts
-
                     // delete all the user_role contains this user
                     user.setRoles(null);
 
-                    // delete all the saved_post
-                    user.setSavedPosts(null);
-
                     // finally, delete this user
                     userRepository.delete(user);
-
                 }
             }
         } catch (Exception e) {
